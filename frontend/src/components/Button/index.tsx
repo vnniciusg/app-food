@@ -1,14 +1,16 @@
 import React from "react";
 
-interface IButton {
-    text:string
+interface IisPrimary {
+    isPrimary : boolean,
+    text: string
 }
 
-const Button  = ({text}:IButton) =>{
+const Button =  ({isPrimary , text} : IisPrimary) =>{
+    const buttonClasses = `active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01] ease-in-out transform py-4 rounded-xl text-lg font-bold ${
+        isPrimary ? 'bg-violet-500 text-white' : 'bg-white text-violet-500 border-solid border-2 border-violet-500'
+      }`;
     return(
-        <button 
-            className="ml-2 font-medium text-base text-violet-500"
-        >
+        <button className={buttonClasses}> 
             {text}
         </button>
     )
