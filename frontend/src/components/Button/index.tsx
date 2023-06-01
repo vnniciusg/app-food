@@ -1,14 +1,14 @@
 import React from "react";
 
-interface IButtonProps {
+interface IButton {
     isPrimary : boolean,
     text: string | null, 
     onClick?:() => void;
 }
 
-const Button =  ({isPrimary , text ,onClick} : IButtonProps) =>{
+const Button =  ({isPrimary , text ,onClick} : IButton) =>{
     const buttonClasses = `active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01] ease-in-out transform py-4 rounded-xl text-lg font-bold w-full ${
-        isPrimary ? 'bg-violet-500 text-white' : 'bg-white text-violet-500 border-solid border-2 border-violet-500'
+        isPrimary ? 'bg-black text-white' : 'bg-transparent text-black border-solid border-2 border-black'
       }`;
     return(
         <button className={buttonClasses} onClick={onClick}> 

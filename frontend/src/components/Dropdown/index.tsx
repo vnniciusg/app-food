@@ -14,7 +14,7 @@ const Dropdown = (props : IDropDown) => {
           onChange={(event) => props.onChange(event.target.value)}
           required={props.required}
           value={props.value}
-          className='bg-white shadow-lg w-full font-normal p-4 rounded-xl mt-1 appearance-none focus:outline-none focus:ring-0 selection-none'
+          className='bg-transparent border-2 border-gray-200 shadow-lg w-full font-normal p-4 rounded-xl mt-1 appearance-none focus:outline-none focus:ring-0 selection-none text-black'
         >
           <option value="">Qual seu objetivo?</option>
           {props.itens.map((item) => (

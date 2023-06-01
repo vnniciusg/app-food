@@ -8,7 +8,7 @@ interface ITextButton {
 const TextButton  = ({text, onClick}:ITextButton) =>{
     return(
         <button 
-            className="ml-2 font-medium text-base text-violet-500"
+            className="ml-2 font-medium text-base text-fourth"
             onClick={onClick}
         >
             {text}

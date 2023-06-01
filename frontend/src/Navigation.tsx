@@ -5,8 +5,11 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
-import RegistroDeRefeicoes from './pages/RegistroDeRefeicoes';
-import Footer from './components/Footer';
+import MealHistory from './pages/MealHistory';
+import Progresso from './pages/Progresso';
+
+// import Footer from './components/Footer';
+
 
 const Navigation: React.FC = () => {
   return (
@@ -15,7 +18,8 @@ const Navigation: React.FC = () => {
         <Router>
           <Route exact path="/" component={Login} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/historico" component={RegistroDeRefeicoes} />
+          <Route exact path="/historico" component={MealHistory} />
+          <Route exact path="/progresso" component={Progresso}/>
         </Router>
       </IonRouterOutlet>
     </IonReactRouter>
