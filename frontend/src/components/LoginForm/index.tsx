@@ -1,14 +1,17 @@
 import React from "react";
-import Label from "./Label";
+import Label from "../Label";
 import TextButton from "../TextButton";
 import Button from "../Button";
+import { IForm } from "../../shared/types/IForm";
+import { useHistory  } from "react-router-dom";
 
-interface IForm {
-    title : string,
-    subtitle :string
-}
 
-const Form = ( {title , subtitle} : IForm) =>{
+const LoginForm = ( {title , subtitle} : IForm) =>{
+    const history = useHistory();
+    const handleClick = () =>{
+        history.push('/register')
+    }
+
     return(
         <div className="w-11/12 max-w-[700px] px-10 py-20 rounded-3xl bg-white border-3 border-gray-100 ">
             <h1 className="text-4xl font-bold text-center">{title}</h1>
@@ -16,18 +19,19 @@ const Form = ( {title , subtitle} : IForm) =>{
             <div className="mt-8">
                 
                 <Label
-                    name="E-mail"
+                    name=""
                     type='text'
-                    placeholder=""
+                    placeholder="E-mail"
                     required
                 />
 
                 <Label
-                    name="Senha"
+                    name=""
                     type='password'
-                    placeholder=""
+                    placeholder="Senha"
                     required
                 />
+                
             </div>
             <div className="mt-8 flex justify-between items-center">
                 <button className="font-medium text-base text-violet-500">Esqueceu a senha?</button>
@@ -41,9 +45,10 @@ const Form = ( {title , subtitle} : IForm) =>{
 
             </div>
             <div className="mt-8 flex justify-center items-center">
-                <p className="font-medium text-base"> Ainda nao tem uma conta?</p>
+                <p className="font-medium text-base"> Ainda não tem uma conta?</p>
                 <TextButton  
                     text="Fazer Cadastro"
+                    onClick={handleClick}
                 />
             </div>
 
@@ -54,4 +59,4 @@ const Form = ( {title , subtitle} : IForm) =>{
 } 
 
 
-export default Form;
+export default LoginForm;

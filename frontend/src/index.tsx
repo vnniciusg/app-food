@@ -3,15 +3,15 @@ import { createRoot } from 'react-dom/client';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import './index.css'
-import Login from './pages/Login';
+import Navigation from './Navigation';
 
 const container = document.getElementById('root');
 
-const root = createRoot(container!);
 // eslint-disable-next-line
+const root = createRoot(container!);
 root.render(
   <React.StrictMode>
-    <Login / >
+    <Navigation / >
   </React.StrictMode>
 );
 

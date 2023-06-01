@@ -1,13 +1,13 @@
 import React from "react";
-import Form from "../components/Form";
+import LoginForm from "../components/LoginForm";
 
 const Login: React.FC =  ()  => {
     return(
      <div className="flex w-full h-screen">
         <div className="w-full flex items-center justify-center h-auto">
-            <Form 
-                title="Bem vindo!"
-                subtitle="Subtitulo"
+            <LoginForm 
+                title="Olá, bem vindo de volta!"
+                subtitle="Entre com seus dados"
              />
         </div>
      </div>
