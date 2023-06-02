@@ -7,6 +7,16 @@ import MealCard from "../components/MealCard";
 import Header from "../components/Header";
 
 const MealHistory = () => {
+
+
+  const [currentDate , setCurrentDate] = useState(new Date());
+
+  const updateDate = (days:number) =>{
+    const newDate = new Date(currentDate);
+    newDate.setDate(newDate.getDate() + days);
+    setCurrentDate(newDate);
+  }
+
   const data = [
     {
       title: "Café da Manhã",
@@ -54,11 +64,11 @@ const MealHistory = () => {
           </h2>
           <div className="bg-transparent flex flex-row gap-x-2  mt-1 text-center items-center">
             <button className="text-sm uppercase text-secondary">
-              <IonIcon icon={arrowBackOutline} />
+              <IonIcon icon={ arrowBackOutline } onClick={() => updateDate(-1)}/>
             </button>
-            <h2 className="font-bold text-sm">31/05/2023</h2>
+            <h2 className="font-bold text-sm">{currentDate.toLocaleDateString('pt-Br')}</h2>
             <button className="text-sm uppercase text-secondary">
-              <IonIcon icon={arrowForwardOutline}/>
+              <IonIcon icon={ arrowForwardOutline } onClick={() => updateDate(1)}/>
             </button>
           </div>
         </div>

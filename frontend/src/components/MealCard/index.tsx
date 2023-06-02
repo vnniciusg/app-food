@@ -10,6 +10,7 @@ interface IMeal {
 
 const MealCard: React.FC<IMeal> = ({ title, alimentos }) => {
   const [showAll, setShowAll] = useState(false);
+  const [ filtrarAlimentos , setfiltrarAlimentos ] = useState(alimentos)
 
   const handleShowAll = () => {
     setShowAll(!showAll);
@@ -22,6 +23,7 @@ const MealCard: React.FC<IMeal> = ({ title, alimentos }) => {
       return alimentos.slice(0, 1);
     }
   };
+
 
   return (
     <div className="bg-transparent shadow-md rounded-lg p-4 mb-4 ">

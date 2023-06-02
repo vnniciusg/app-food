@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { IonIcon } from "@ionic/react";
 
 interface IHeaderList {
@@ -8,21 +8,18 @@ interface IHeaderList {
 }
 
 const HeaderList = ({ href, iconName, text }: IHeaderList) => {
-  const [ isHovered , setisHovered ] = useState(false);
 
-  const handleHover = () =>{
-    setisHovered((prevState) => !prevState)
-  }
+
+  const UrlCheck = window.location.href === `http://localhost:3000${href}`
 
   return (
     <li
       className="relative list-none w-[80px] h-[70px] flex justify-center items-center text-center"
-      onClick={handleHover}
     >
       <a href={href} className="relative flex justify-center items-center flex-col text-center font-medium gap-10">
         <span
           className={`relative block text-[1.5em] leading-[75px]   ${
-            !isHovered
+            !UrlCheck
               ? "translate-y-2  text-violet-50"
               : "duration-500 text-fourth"
           }`}
@@ -31,7 +28,7 @@ const HeaderList = ({ href, iconName, text }: IHeaderList) => {
         </span>
         <span
           className={`absolute opacity-0 font-semibold text-[0.5em] text-[#fff] uppercase   ${
-            !isHovered
+            !UrlCheck
               ? "translate-y-4 duration-500"
               : "translate-y-[18px] opacity-100"
           }`}
