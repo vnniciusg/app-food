@@ -1,16 +1,16 @@
 import React from "react";
-import { TouchableOpacity , Text, View } from "react-native";
+import { TouchableOpacity , Text, TouchableOpacityProps } from "react-native";
+import {  useNavigation } from '@react-navigation/native'
 
 
-interface ITextButtonProps{
-    text:string
-    onClick?: () => void;
+interface ITextButtonProps extends TouchableOpacityProps{
+    text : string
 }
 
-
-const TextButton:React.FC<ITextButtonProps> = ({ text , onClick }) =>{
+const TextButton = ({ text , ...rest } : ITextButtonProps) =>{
+    const navigation = useNavigation()
     return(
-        <TouchableOpacity  onPress={onClick}>
+        <TouchableOpacity {...rest}>
             <Text className="ml-2  shadow-2xl shadow-color4 font-medium text-base text-color4">{text}</Text>
         </TouchableOpacity>
     )

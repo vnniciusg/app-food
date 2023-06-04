@@ -1,17 +1,21 @@
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Login from '../screens/Login'
 import Register from '../screens/Register'
 import MealHistory from '../screens/MealHistory'
 import CustomTabBar from '../components/CustomTabBar'
 import AddFood from '../screens/AddFood'
+import UserProfileScreen from '../screens/Profile'
+
 
 
 const Tab = createBottomTabNavigator()
 
-const Tabs = () =>{
+
+const AppStack = () =>{
     return(
-        <Tab.Navigator  
+        <Tab.Navigator
         screenOptions={{
             tabBarShowLabel : false,
             tabBarStyle:{
@@ -27,25 +31,16 @@ const Tabs = () =>{
             }
         }}>
             <Tab.Screen
-                    name='Login'
-                    component={Login}
+                    name='Profile'
+                    component={UserProfileScreen}
                     options={{
                         headerShown:false,
-                        tabBarIcon: ({ focused }) => (<CustomTabBar focused={focused} iconFocused='person' iconNotFocused='person-outline' name='Login' />
+                        tabBarIcon: ({ focused }) => (<CustomTabBar focused={focused} iconFocused='person' iconNotFocused='person-outline' name='Profile' />
                         ),
                     }}
             />
             <Tab.Screen
-                    name='Register'
-                    component={Register}
-                    options={{
-                        headerShown:false,
-                        tabBarIcon: ({ focused }) => (<CustomTabBar focused={focused} iconFocused='home' iconNotFocused='home-outline' name='Registro' />
-                        ),
-                    }}
-            />
-            <Tab.Screen
-                    name='Historico de Refeições'
+                    name='History'
                     component={MealHistory}
                     options={{
                         headerShown:false,
@@ -54,7 +49,7 @@ const Tabs = () =>{
                     }}
             />
             <Tab.Screen
-                    name='Registro de refeiçoes'
+                    name='RegisterFood'
                     component={AddFood}
                     options={{
                         headerShown:false,
@@ -64,6 +59,8 @@ const Tabs = () =>{
             />
         </Tab.Navigator>
     )
+
 }
 
-export default Tabs;
+
+export default AppStack;

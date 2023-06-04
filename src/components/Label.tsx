@@ -1,18 +1,11 @@
 import React, { useState } from "react";
-import { TextInput, View , KeyboardTypeOptions, Text } from "react-native";
+import { TextInput, View , TextInputProps, Text } from "react-native";
 import Icon  from "react-native-vector-icons/MaterialCommunityIcons";
 
-interface ILabelProps{
-    name? : string,
-    type: KeyboardTypeOptions,
-    placeholder: string,
-    iconName : string,
-    required?: boolean 
-    secureTextEntry? :boolean
-}
 
 
-const Label:React.FC <ILabelProps> = ({ name , type , iconName, placeholder , required , secureTextEntry}) =>{
+
+const Label: React.FC<TextInputProps & { name: string, iconName: string }>=({ name, iconName, ...props }) =>{
 
     const [ hidePassword , setHidePassword ] = useState(false);
 
@@ -23,9 +16,11 @@ const Label:React.FC <ILabelProps> = ({ name , type , iconName, placeholder , re
                 <Icon name={iconName} color={'#0e6bc8'} className="text-xl mr-[10px]"/>
                 <TextInput  
                     className="flex-1"
-                    placeholder={placeholder}
-                    keyboardType={type}   
-                    secureTextEntry = {secureTextEntry}
+                    placeholder={props.placeholder}
+                    keyboardType={props.keyboardType}   
+                    secureTextEntry = {props.secureTextEntry}
+                    value={props.value}
+                    onChangeText={props.onChangeText}
                 />
                 {name === 'Password' &&(
                     <Icon 
