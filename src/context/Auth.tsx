@@ -3,6 +3,7 @@ import { Alert } from 'react-native'
 
 
 import { authService } from "../services/authService";
+import { userService } from '../services/userService'
 
 
 
@@ -11,11 +12,19 @@ export interface IAuthData {
     nome : string
     email : string
 }
+export interface IUserData {
+    name:string,
+    email:string,
+    password:string,
+    altura: string,
+    peso: string
+}
 
 interface IAuthContextContex {
     authData? : IAuthData
     signIn : (email: string , password : string ) => Promise<IAuthData>
     signOut : () => Promise<void>
+    signUp: (name: string, email: string, password: string , altura : string , peso:string ) => Promise<IUserData>;
 }
 
 interface IAuthProvider{
@@ -41,6 +50,16 @@ const AuthProvider : React.FC<IAuthProvider> = ({children}) =>{
 
     }
 
+    async function signUp(name: string, email: string, password: string , altura : string , peso:string , ):Promise<IUserData> {
+        try{
+            const user = await userService.signUp( name, email , password , altura , peso);
+            return user;
+        }catch(error){
+            Alert.alert(error.message , 'Tente novamente')
+        }
+        
+    }
+
     async function signOut():Promise<void>{
         setAuthData(undefined)
 
@@ -48,7 +67,7 @@ const AuthProvider : React.FC<IAuthProvider> = ({children}) =>{
     }
 
     return(
-        <AuthContext.Provider value={{authData , signIn , signOut}}>
+        <AuthContext.Provider value={{authData , signIn , signOut , signUp}}>
             {children}
         </AuthContext.Provider>
 

@@ -1,8 +1,7 @@
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Register from '../screens/Register'
+
+
 import MealHistory from '../screens/MealHistory'
 import CustomTabBar from '../components/CustomTabBar'
 import AddFood from '../screens/AddFood'

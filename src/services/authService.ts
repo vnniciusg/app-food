@@ -16,6 +16,8 @@ const signIn = (email: string, password: string): Promise<IAuthData> => {
   });
 };
 
+
+
 export const authService = {
   signIn,
 };
