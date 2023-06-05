@@ -1,22 +1,18 @@
 import React, { useState } from "react";
-import { View , Text , ScrollView , StatusBar , SafeAreaView} from "react-native";
+import { View, Text, ScrollView, StatusBar, SafeAreaView } from "react-native";
 
 import MealCard from "../components/MealCard";
 import ButtonIcon from "../components/ButtonIcon";
 import { FlatList } from "react-native";
 
-
 const MealHistory = () => {
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-
-  const [currentDate , setCurrentDate] = useState(new Date());
-
-  const updateDate = (days:number) =>{
+  const updateDate = (days: number) => {
     const newDate = new Date(currentDate);
     newDate.setDate(newDate.getDate() + days);
     setCurrentDate(newDate);
-  }
-
+  };
   const data = [
     {
       title: "Café da Manhã",
@@ -64,29 +60,37 @@ const MealHistory = () => {
               Refeições
             </Text>
             <View className="bg-transparent flex flex-row gap-x-2  mt-1 text-center items-center">
-              <ButtonIcon  buttonIconName="arrow-back" onPress={() => updateDate(-1)}/>
-              <Text className="font-bold text-sm text-color3">{currentDate.toLocaleDateString('pt-Br')}</Text>
-              <ButtonIcon  buttonIconName="arrow-forward" onPress={() => updateDate(+1)}/>
+              <ButtonIcon
+                buttonIconName="arrow-back"
+                onPress={() => updateDate(-1)}
+              />
+              <Text className="font-bold text-sm text-color3">
+                {currentDate.toLocaleDateString("pt-Br")}
+              </Text>
+              <ButtonIcon
+                buttonIconName="arrow-forward"
+                onPress={() => updateDate(+1)}
+              />
             </View>
           </View>
           <View className="p-1.5 mt-4 text-start">
-              <Text className="font-bold text-color4">Calorias Totais : </Text>
+            <Text className="font-bold text-color4">Calorias Totais : </Text>
           </View>
         </View>
-        <FlatList 
-            data={data.map((refeicao, index) => ({
-              key: index.toString(), // Use a string key instead of index
-              title: refeicao.title,
-              alimentos: refeicao.alimentos,
-            }))}
-            renderItem={({ item }) => (
-              <MealCard
-                key={item.key}
-                title={item.title}
-                alimentos={item.alimentos}
-              />
-            )}
-          />
+        <FlatList
+          data={data.map((refeicao, index) => ({
+            key: index.toString(), // Use a string key instead of index
+            title: refeicao.title,
+            alimentos: refeicao.alimentos,
+          }))}
+          renderItem={({ item }) => (
+            <MealCard
+              key={item.key}
+              title={item.title}
+              alimentos={item.alimentos}
+            />
+          )}
+        />
       </View>
     </SafeAreaView>
   );

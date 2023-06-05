@@ -1,65 +1,77 @@
-import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+import MealHistory from "../screens/MealHistory";
+import CustomTabBar from "../components/CustomTabBar";
+import AddFood from "../screens/AddFood";
+import UserProfileScreen from "../screens/Profile";
 
-import MealHistory from '../screens/MealHistory'
-import CustomTabBar from '../components/CustomTabBar'
-import AddFood from '../screens/AddFood'
-import UserProfileScreen from '../screens/Profile'
+const Tab = createBottomTabNavigator();
 
-
-
-const Tab = createBottomTabNavigator()
-
-
-const AppStack = () =>{
-    return(
-        <Tab.Navigator
-        screenOptions={{
-            tabBarShowLabel : false,
-            tabBarStyle:{
-                position:'absolute',
-                bottom : 25,
-                left : 20,
-                right : 20,
-                backgroundColor: '#0f4571',
-                borderRadius : 15,
-                height: 70,
-                elevation: 0,
-                
-            }
-        }}>
-            <Tab.Screen
-                    name='Profile'
-                    component={UserProfileScreen}
-                    options={{
-                        headerShown:false,
-                        tabBarIcon: ({ focused }) => (<CustomTabBar focused={focused} iconFocused='person' iconNotFocused='person-outline' name='Profile' />
-                        ),
-                    }}
+const AppStack = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          position: "absolute",
+          bottom: 25,
+          left: 20,
+          right: 20,
+          backgroundColor: "#0f4571",
+          borderRadius: 15,
+          height: 70,
+          elevation: 0,
+        },
+      }}
+    >
+      <Tab.Screen
+        name="Profile"
+        component={UserProfileScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <CustomTabBar
+              focused={focused}
+              iconFocused="person"
+              iconNotFocused="person-outline"
+              name="Profile"
             />
-            <Tab.Screen
-                    name='History'
-                    component={MealHistory}
-                    options={{
-                        headerShown:false,
-                        tabBarIcon: ({ focused }) => (<CustomTabBar focused={focused} iconFocused='restaurant' iconNotFocused='restaurant-outline' name='Historico' />
-                        ),
-                    }}
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="History"
+        component={MealHistory}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <CustomTabBar
+              focused={focused}
+              iconFocused="restaurant"
+              iconNotFocused="restaurant-outline"
+              name="Historico"
             />
-            <Tab.Screen
-                    name='RegisterFood'
-                    component={AddFood}
-                    options={{
-                        headerShown:false,
-                        tabBarIcon: ({ focused }) => (<CustomTabBar focused={focused} iconFocused='fast-food' iconNotFocused='fast-food-outline' name='Cadastrar Alimentos' />
-                        ),
-                    }}
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Cadastro de Alimentos"
+        component={AddFood}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <CustomTabBar
+              focused={focused}
+              iconFocused="fast-food"
+              iconNotFocused="fast-food-outline"
+              name="Cadastrar Alimentos"
             />
-        </Tab.Navigator>
-    )
-
-}
-
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 export default AppStack;
