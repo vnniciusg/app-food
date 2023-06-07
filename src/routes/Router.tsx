@@ -6,10 +6,10 @@ import AuthStack from "./AuthStack";
 import { useAuth } from "../context/Auth";
 
 export function Router() {
-  const { authData } = useAuth();
+  const { authState } = useAuth();
   return (
     <NavigationContainer>
-      {!authData ? <AppStack /> : <AuthStack />}
+      {authState?.authenticated ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }

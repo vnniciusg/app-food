@@ -1,93 +1,104 @@
-import React, { createContext, useState, ReactNode, useContext } from "react";
-import { Alert } from "react-native";
+import { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 
-import { authService } from "../services/authService";
-import { userService } from "../services/userService";
+import { IAuthProps } from "../types/IAuthProps";
+import { IAuthState } from "../types/IAuthState";
+import { IRegisterProps } from "../types/IRegisterProps";
+import { ILoginProps } from "../types/ILoginProps";
+import secret from "../../secret";
 
-export interface IAuthData {
-  token: string;
-  nome: string;
-  email: string;
-}
-export interface IUserData {
-  name: string;
-  email: string;
-  password: string;
-  altura: string;
-  peso: string;
-}
+const TOKEN_KEY = secret.TOKEN_KEY;
+export const API_URL = secret.API_URL;
 
-interface IAuthContextContex {
-  authData?: IAuthData;
-  signIn: (email: string, password: string) => Promise<IAuthData>;
-  signOut: () => Promise<void>;
-  signUp: (
-    name: string,
-    email: string,
-    password: string,
-    altura: string,
-    peso: string
-  ) => Promise<IUserData>;
-}
+const AuthContext = createContext<IAuthProps>({});
 
-interface IAuthProvider {
-  children: ReactNode;
-}
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
 
-export const AuthContext = createContext<IAuthContextContex>(
-  {} as IAuthContextContex
-);
+export const AuthProvider = ({ children }: any) => {
+  const [authState, setAuthState] = useState<IAuthState>({
+    token: null,
+    authenticated: null,
+  });
 
-const AuthProvider: React.FC<IAuthProvider> = ({ children }) => {
-  const [authData, setAuthData] = useState<IAuthData>();
+  useEffect(() => {
+    const loadToken = async () => {
+      const token = await SecureStore.getItemAsync(TOKEN_KEY);
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
 
-  async function signIn(email: string, password: string): Promise<IAuthData> {
+      setAuthState({
+        token: token,
+        authenticated: true,
+      });
+    };
+    loadToken();
+  }, []);
+
+  const register = async ({
+    name,
+    email,
+    password,
+    altura,
+    peso,
+  }: IRegisterProps) => {
     try {
-      const auth = await authService.signIn(email, password);
-      setAuthData(auth);
-      return auth;
-    } catch (error) {
-      Alert.alert(error.message, "Tente novamente");
-    }
-  }
-
-  async function signUp(
-    name: string,
-    email: string,
-    password: string,
-    altura: string,
-    peso: string
-  ): Promise<IUserData> {
-    try {
-      const user = await userService.signUp(
+      return await axios.post(`${API_URL}/api/user/register`, {
         name,
         email,
         password,
         altura,
-        peso
-      );
-      return user;
-    } catch (error) {
-      Alert.alert(error.message, "Tente novamente");
+        peso,
+      });
+    } catch (e) {
+      return { error: true, msg: (e as any).response.data.msg };
     }
-  }
+  };
 
-  async function signOut(): Promise<void> {
-    setAuthData(undefined);
+  const login = async ({ email, password }: ILoginProps) => {
+    try {
+      const result = await axios.post(`${API_URL}/api/user/login`, {
+        email,
+        password,
+      });
+      console.log("");
+      setAuthState({
+        token: result.data.token,
+        authenticated: true,
+      });
 
-    return;
-  }
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${result.data.token}`;
 
-  return (
-    <AuthContext.Provider value={{ authData, signIn, signOut, signUp }}>
-      {children}
-    </AuthContext.Provider>
-  );
+      await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
+
+      return result;
+    } catch (e) {
+      return { error: true, msg: (e as any).response.data.msg };
+    }
+  };
+
+  const logout = async () => {
+    await SecureStore.deleteItemAsync(TOKEN_KEY);
+
+    axios.defaults.headers.common["Authorization"] = "";
+
+    setAuthState({
+      token: null,
+      authenticated: false,
+    });
+  };
+
+  const value = {
+    onRegister: register,
+    onLogin: login,
+    onLogout: logout,
+    authState,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-export default AuthProvider;
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-  return context;
-}

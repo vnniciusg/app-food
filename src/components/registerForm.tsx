@@ -30,8 +30,24 @@ const RegisterForm: React.FC<IRegisterForm> = ({
   subtitle,
   ...rest
 }) => {
-  const { signUp } = useAuth();
+  const { onRegister } = useAuth();
+
   const navigation = useNavigation();
+
+  const register = async () => {
+    const result = await onRegister!(
+      rest.nome,
+      rest.email,
+      rest.password,
+      rest.altura,
+      rest.peso
+    );
+    if (result && result.error) {
+      alert(result.msg);
+    } else {
+      navigation.navigate("Login");
+    }
+  };
 
   return (
     <View className="w-full h-screen px-10 py-20 mt-4 rounded-3xl border-3 ">
@@ -102,19 +118,7 @@ const RegisterForm: React.FC<IRegisterForm> = ({
             />
           </View>
           <View className="mt-2 flex flex-col gap-y-4">
-            <Botao
-              isPrimary
-              text="Cadastrar"
-              onClick={() =>
-                signUp(
-                  rest.nome,
-                  rest.email,
-                  rest.password,
-                  rest.altura,
-                  rest.peso
-                )
-              }
-            />
+            <Botao isPrimary text="Cadastrar" onClick={register} />
           </View>
         </View>
       </View>
