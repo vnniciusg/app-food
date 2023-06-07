@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
@@ -20,51 +20,50 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: any) => {
   const [authState, setAuthState] = useState<IAuthState>({
     token: null,
-    authenticated: null,
+    authenticated: false,
   });
 
-  useEffect(() => {
-    const loadToken = async () => {
-      const token = await SecureStore.getItemAsync(TOKEN_KEY);
-      if (token) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      }
+  // useEffect(() => {
+  //   const loadToken = async () => {
+  //     const token = await SecureStore.getItemAsync(TOKEN_KEY);
+  //     if (token) {
+  //       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  //     }
 
-      setAuthState({
-        token: token,
-        authenticated: true,
-      });
-    };
-    loadToken();
-  }, []);
+  //     setAuthState({
+  //       token: token,
+  //       authenticated: true,
+  //     });
+  //   };
+  //   loadToken();
+  // }, []);
 
   const register = async ({
-    name,
     email,
+    name,
     password,
     altura,
     peso,
   }: IRegisterProps) => {
     try {
-      return await axios.post(`${API_URL}/api/user/register`, {
-        name,
+      return await axios.post(`${secret.API_URL}/api/user/register`, {
         email,
+        name,
         password,
         altura,
         peso,
       });
-    } catch (e) {
-      return { error: true, msg: (e as any).response.data.msg };
+    } catch (e: any) {
+      return { error: true, msg: e.message };
     }
   };
 
   const login = async ({ email, password }: ILoginProps) => {
     try {
-      const result = await axios.post(`${API_URL}/api/user/login`, {
+      const result = await axios.post(`${secret.API_URL}/api/user/login`, {
         email,
         password,
       });
-      console.log("");
       setAuthState({
         token: result.data.token,
         authenticated: true,
@@ -94,10 +93,10 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   const value = {
+    authState,
     onRegister: register,
     onLogin: login,
     onLogout: logout,
-    authState,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

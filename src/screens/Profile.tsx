@@ -12,9 +12,18 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import TextButton from "../components/textButton";
+import { useAuth } from "../context/Auth";
 
 const UserProfileScreen = () => {
+  const { onLogout } = useAuth();
+
+  const logout = async () => {
+    const result = await onLogout!();
+    if (result && result.error) {
+      alert(result.msg);
+    }
+  };
+
   return (
     <SafeAreaView className="flex flex-col bg-color1 py-[100px] px-2">
       <View className="px-[30px] mb-2 h-auto">
@@ -91,7 +100,7 @@ const UserProfileScreen = () => {
             </Text>
           </View>
         </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
+        <TouchableRipple onPress={logout}>
           <View className="flex flex-row my-3 px-1">
             <Icon name="logout" color="#146C94" size={25} />
             <Text className="ml-[20px] font-medium text-sm text-black">

@@ -19,7 +19,7 @@ export interface IRegisterForm {
   peso: string;
   setPassword: (password: string) => void;
   setEmail: (email: string) => void;
-  setNome: (nome: string) => void;
+  setNome: (name: string) => void;
   setConfirmPassword: (confirmPassword: string) => void;
   setAltura: (altura: string) => void;
   setPeso: (peso: string) => void;
@@ -28,6 +28,12 @@ export interface IRegisterForm {
 const RegisterForm: React.FC<IRegisterForm> = ({
   title,
   subtitle,
+  email,
+  nome,
+  password,
+  confirmPassword,
+  altura,
+  peso,
   ...rest
 }) => {
   const { onRegister } = useAuth();
@@ -35,13 +41,14 @@ const RegisterForm: React.FC<IRegisterForm> = ({
   const navigation = useNavigation();
 
   const register = async () => {
-    const result = await onRegister!(
-      rest.nome,
-      rest.email,
-      rest.password,
-      rest.altura,
-      rest.peso
-    );
+    const result = await onRegister!({
+      name: nome,
+      email,
+      password,
+      peso,
+      altura,
+    });
+    console.log(result);
     if (result && result.error) {
       alert(result.msg);
     } else {
@@ -62,28 +69,28 @@ const RegisterForm: React.FC<IRegisterForm> = ({
           name="Nome"
           iconName=""
           placeholder="Digite seu Nome: "
-          value={rest.nome}
+          value={nome}
           onChangeText={rest.setNome}
         />
         <Label
           name="Email"
           iconName=""
           placeholder="Digite seu E-mail: "
-          value={rest.email}
+          value={email}
           onChangeText={rest.setEmail}
         />
         <Label
           name="Senha"
           iconName=""
           placeholder="Digite sua senha: "
-          value={rest.password}
+          value={password}
           onChangeText={rest.setPassword}
         />
         <Label
           name="Confirmar Senha"
           iconName=""
           placeholder="Confirme sua senha: "
-          value={rest.confirmPassword}
+          value={confirmPassword}
           onChangeText={rest.setConfirmPassword}
         />
         <View className="flex flex-row gap-x-4 mb-5">
@@ -92,7 +99,7 @@ const RegisterForm: React.FC<IRegisterForm> = ({
               name="Altura"
               iconName=""
               placeholder="Altura"
-              value={rest.altura}
+              value={altura}
               onChangeText={rest.setAltura}
             />
           </View>
@@ -101,7 +108,7 @@ const RegisterForm: React.FC<IRegisterForm> = ({
               name="Peso"
               iconName=""
               placeholder="Peso"
-              value={rest.peso}
+              value={peso}
               onChangeText={rest.setPeso}
             />
           </View>

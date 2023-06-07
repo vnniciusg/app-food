@@ -9,7 +9,6 @@ import {
 } from "react-native";
 
 import RegisterForm from "../components/registerForm";
-import Botao from "../components/Button";
 
 const Register = () => {
   const [email, setEmail] = useState("");

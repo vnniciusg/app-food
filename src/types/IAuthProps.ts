@@ -4,7 +4,7 @@ import { IRegisterProps } from "./IRegisterProps";
 
 export interface IAuthProps {
   authState?: IAuthState;
-  onRegister?: (props: IRegisterProps) => Promise<any>;
-  onLogin?: (props: ILoginProps) => Promise<any>;
+  onRegister?: (registerProps: IRegisterProps) => Promise<any>;
+  onLogin?: (loginProps: ILoginProps) => Promise<any>;
   onLogout?: () => Promise<any>;
 }

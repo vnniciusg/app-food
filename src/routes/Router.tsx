@@ -7,6 +7,7 @@ import { useAuth } from "../context/Auth";
 
 export function Router() {
   const { authState } = useAuth();
+
   return (
     <NavigationContainer>
       {authState?.authenticated ? <AppStack /> : <AuthStack />}
