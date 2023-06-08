@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, SafeAreaView } from "react-native";
 
 import {
@@ -13,9 +13,11 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import { useAuth } from "../context/Auth";
+import ProfileModal from "../components/profileModal";
 
 const UserProfileScreen = () => {
   const { onLogout } = useAuth();
+  const [showModal, setShowModal] = useState(false);
 
   const logout = async () => {
     const result = await onLogout!();
@@ -57,26 +59,27 @@ const UserProfileScreen = () => {
           <Title className="text-color3">Meta Calorica</Title>
           <View className="flex flex-row items-center gap-3">
             <Caption>Jonh Doe</Caption>
-            <FontAwesome name="edit" />
           </View>
         </View>
         <View className="w-1/3 flex items-center justify-center">
           <Title className="text-color3">Peso</Title>
           <View className="flex flex-row items-center gap-3">
             <Caption>Jonh Doe</Caption>
-            <FontAwesome name="edit" />
           </View>
         </View>
         <View className="w-1/3 flex items-center justify-center">
           <Title className="text-color3">Altura</Title>
           <View className="flex flex-row items-center gap-3">
             <Caption>Jonh Doe</Caption>
-            <FontAwesome name="edit" />
           </View>
         </View>
       </View>
       <View className="mt-[20px]">
-        <TouchableRipple onPress={() => {}}>
+        <TouchableRipple
+          onPress={() => {
+            setShowModal(true);
+          }}
+        >
           <View className="flex flex-row my-3 px-1">
             <Icon name="account-edit-outline" color="#146C94" size={25} />
             <Text className="ml-[20px] font-medium text-sm text-black">
@@ -92,14 +95,6 @@ const UserProfileScreen = () => {
             </Text>
           </View>
         </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
-          <View className="flex flex-row my-3 px-1">
-            <Icon name="account-check-outline" color="#146C94" size={25} />
-            <Text className="ml-[20px] font-medium text-sm text-black">
-              Support
-            </Text>
-          </View>
-        </TouchableRipple>
         <TouchableRipple onPress={logout}>
           <View className="flex flex-row my-3 px-1">
             <Icon name="logout" color="#146C94" size={25} />
@@ -109,6 +104,12 @@ const UserProfileScreen = () => {
           </View>
         </TouchableRipple>
       </View>
+      <ProfileModal
+        visible={showModal}
+        onClose={() => setShowModal(false)}
+        title="TITULO"
+        labelValue="ASDASDASD"
+      />
     </SafeAreaView>
   );
 };

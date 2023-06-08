@@ -62,54 +62,47 @@ const MealHistory = () => {
   return (
     <SafeAreaView>
       <StatusBar />
-      <KeyboardAvoidingView
-        className="flex w-full h-screen items-center justify-center bg-color5"
-        behavior="padding"
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View className="mt-14 h-screen flex flex-col justify-center bg-color5">
-            <View className="flex justify-center flex-col text-center my-2 mx-4 p-1">
-              <View className="flex justify-center flex-col items-center text-center ">
-                <Text className="font-bold text-2xl uppercase  text-color3">
-                  Refeições
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View className="mt-14 h-screen flex flex-col justify-center bg-color5">
+          <View className="flex justify-center flex-col text-center my-2 mx-4 p-1">
+            <View className="flex justify-center flex-col items-center text-center ">
+              <Text className="font-bold text-2xl uppercase  text-color3">
+                Refeições
+              </Text>
+              <View className="bg-transparent flex flex-row gap-x-2  mt-1 text-center items-center">
+                <ButtonIcon
+                  buttonIconName="arrow-back"
+                  onPress={() => updateDate(-1)}
+                />
+                <Text className="font-bold text-sm text-color3">
+                  {currentDate.toLocaleDateString("pt-Br")}
                 </Text>
-                <View className="bg-transparent flex flex-row gap-x-2  mt-1 text-center items-center">
-                  <ButtonIcon
-                    buttonIconName="arrow-back"
-                    onPress={() => updateDate(-1)}
-                  />
-                  <Text className="font-bold text-sm text-color3">
-                    {currentDate.toLocaleDateString("pt-Br")}
-                  </Text>
-                  <ButtonIcon
-                    buttonIconName="arrow-forward"
-                    onPress={() => updateDate(+1)}
-                  />
-                </View>
-              </View>
-              <View className="p-1.5 mt-4 text-start">
-                <Text className="font-bold text-color4">
-                  Calorias Totais :{" "}
-                </Text>
+                <ButtonIcon
+                  buttonIconName="arrow-forward"
+                  onPress={() => updateDate(+1)}
+                />
               </View>
             </View>
-            <FlatList
-              data={data.map((refeicao, index) => ({
-                key: index.toString(), // Use a string key instead of index
-                title: refeicao.title,
-                alimentos: refeicao.alimentos,
-              }))}
-              renderItem={({ item }) => (
-                <MealCard
-                  key={item.key}
-                  title={item.title}
-                  alimentos={item.alimentos}
-                />
-              )}
-            />
+            <View className="p-1.5 mt-4 text-start">
+              <Text className="font-bold text-color4">Calorias Totais : </Text>
+            </View>
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+          <FlatList
+            data={data.map((refeicao, index) => ({
+              key: index.toString(),
+              title: refeicao.title,
+              alimentos: refeicao.alimentos,
+            }))}
+            renderItem={({ item }) => (
+              <MealCard
+                key={item.key}
+                title={item.title}
+                alimentos={item.alimentos}
+              />
+            )}
+          />
+        </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };

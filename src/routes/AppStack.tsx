@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import MealHistory from "../screens/MealHistory";
 import CustomTabBar from "../components/CustomTabBar";
-import AddFood from "../screens/AddFood";
 import UserProfileScreen from "../screens/Profile";
 
 const Tab = createBottomTabNavigator();
@@ -51,21 +50,6 @@ const AppStack = () => {
               iconFocused="restaurant"
               iconNotFocused="restaurant-outline"
               name="Historico"
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Cadastro de Alimentos"
-        component={AddFood}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <CustomTabBar
-              focused={focused}
-              iconFocused="fast-food"
-              iconNotFocused="fast-food-outline"
-              name="Cadastrar Alimentos"
             />
           ),
         }}

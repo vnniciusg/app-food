@@ -10,7 +10,7 @@ export function Router() {
 
   return (
     <NavigationContainer>
-      {authState?.authenticated ? <AppStack /> : <AuthStack />}
+      {!authState?.authenticated ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }

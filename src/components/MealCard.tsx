@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Botao from "./Button";
 import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import FoodModal from "./foodModal";
 
 interface IMeal {
   title: string;
@@ -10,6 +11,7 @@ interface IMeal {
 
 const MealCard: React.FC<IMeal> = ({ title, alimentos }) => {
   const [showAll, setShowAll] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleShowAll = () => {
     setShowAll(!showAll);
@@ -34,26 +36,31 @@ const MealCard: React.FC<IMeal> = ({ title, alimentos }) => {
         </View>
         <View className="flex flex-col ">
           {getVisibleAlimentos()?.map((alimento, index) => (
-            <View key={index} className="flex flex-col m-2 justify-center">
-              <View className="flex flex-row gap-x-2">
-                <Text className=" text-xs text-color4">
-                  Quantidade : {alimento.qntd}gramas |
+            <View
+              key={index}
+              className="flex flex-col m-2 justify-center border-b border-gray-400 py-3 "
+            >
+              <View className="flex flex-row justify-between mr-6 ">
+                <Text className="text-base font-semibold text-color4">
+                  {alimento.nome}
+                </Text>
+                <TouchableOpacity>
+                  <Icon name="close-circle" color={"red"} size={20} />
+                </TouchableOpacity>
+              </View>
+              <View className="flex flex-row gap-x-2 ">
+                <Text className=" text-xs  text-color4 border-r pr-2 border-gray-400">
+                  Quantidade : {alimento.qntd}gramas
                 </Text>
                 <Text className=" text-xs text-color4">
                   Caloria Unitaria : {alimento.quantidadeCalorica}Kcal
                 </Text>
               </View>
-              <View className="flex flex-row justify-between mr-6">
-                <Text className="text-md text-color4">{alimento.nome}</Text>
-                <TouchableOpacity>
-                  <Icon name="close-circle" color={"red"} size={20} />
-                </TouchableOpacity>
-              </View>
             </View>
           ))}
         </View>
         <View className="flex flex-row  justify-between text-center items-center">
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setShowModal(true)}>
             <Text className="text-red-400 p-2 m-2">Adicionar Alimento...</Text>
           </TouchableOpacity>
           <View className="flex flex-row justify-center text-center">
@@ -66,6 +73,7 @@ const MealCard: React.FC<IMeal> = ({ title, alimentos }) => {
             )}
           </View>
         </View>
+        <FoodModal visible={showModal} onClose={() => setShowModal(false)} />
       </View>
     </SafeAreaView>
   );

@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { TextInput, View, TextInputProps, Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-const Label: React.FC<TextInputProps & { name: string; iconName: string }> = ({
-  name,
-  iconName,
-  ...props
-}) => {
+const Label: React.FC<
+  TextInputProps & { name: string; iconName: string; search?: boolean }
+> = ({ name, iconName, search, ...props }) => {
   const [hidePassword, setHidePassword] = useState(false);
 
   return (
-    <View className="shadow-2xl p-1 shadow-black mb-[10px]">
+    <View className="shadow-2xl  shadow-black mb-[10px]">
       <Text className="my-[5px] text-sm text-color4">{name}</Text>
       <View className="flex flex-row items-center just h-[55px] px-[15px] bg-color2 rounded-lg gap-x-1">
         <Icon name={iconName} color={"#0e6bc8"} className="text-xl mr-[10px]" />
@@ -18,7 +17,7 @@ const Label: React.FC<TextInputProps & { name: string; iconName: string }> = ({
           className="flex-1"
           placeholder={props.placeholder}
           keyboardType={props.keyboardType}
-          secureTextEntry={false ? props.secureTextEntry : hidePassword}
+          secureTextEntry={!hidePassword ? props.secureTextEntry : false}
           value={props.value}
           onChangeText={props.onChangeText}
         />
@@ -27,6 +26,14 @@ const Label: React.FC<TextInputProps & { name: string; iconName: string }> = ({
             onPress={() => setHidePassword(!hidePassword)}
             name={hidePassword ? "eye-outline" : "eye-off-outline"}
             color={"#0e6bc8"}
+            className="text-xl mr-[10px]"
+          />
+        )}
+        {search === true && (
+          <Ionicons
+            name="search"
+            color={"#0e6bc8"}
+            size={18}
             className="text-xl mr-[10px]"
           />
         )}

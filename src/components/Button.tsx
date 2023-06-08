@@ -8,7 +8,7 @@ interface IBotao {
 }
 
 const Botao: React.FC<IBotao> = ({ isPrimary, text, onClick }) => {
-  const buttonClasses = `active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01] ease-in-out transform py-4 rounded-xl px-4 ${
+  const buttonClasses = `my-1 py-1 active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01] ease-in-out transform py-4 rounded-xl px-4 ${
     isPrimary
       ? "bg-color3 shadow-2xl shadow-black "
       : "bg-transparent shadow-2xl shadow-gray-400 border-solid border-2 border-color4"
