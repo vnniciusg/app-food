@@ -40,7 +40,7 @@ const LoginForm: React.FC<ILoginForm> = ({
         />
         <Label
           name="Password"
-          iconName="email-outline"
+          iconName="key-outline"
           placeholder="Senha"
           secureTextEntry
           value={password}

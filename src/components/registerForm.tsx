@@ -37,8 +37,16 @@ const RegisterForm: React.FC<IRegisterForm> = ({
   ...rest
 }) => {
   const { onRegister } = useAuth();
+  const [currentStep, setCurrentStep] = useState(1);
 
   const navigation = useNavigation();
+
+  const handleNextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+  const handleBackStep = () => {
+    setCurrentStep(currentStep - 1);
+  };
 
   const register = async () => {
     const result = await onRegister!({
@@ -56,6 +64,78 @@ const RegisterForm: React.FC<IRegisterForm> = ({
     }
   };
 
+  const renderStepOne = () => {
+    return (
+      <View className="flex flex-col mt-2">
+        <Label
+          name="Nome"
+          iconName="account-outline"
+          placeholder="Digite seu Nome: "
+          value={nome}
+          onChangeText={rest.setNome}
+        />
+        <Label
+          name="Email"
+          iconName="email-outline"
+          placeholder="Digite seu E-mail: "
+          value={email}
+          onChangeText={rest.setEmail}
+        />
+        <Label
+          name="Senha"
+          iconName="key-outline"
+          placeholder="Digite sua senha: "
+          value={password}
+          secureTextEntry
+          onChangeText={rest.setPassword}
+        />
+        <Label
+          name="Confirmar Senha"
+          iconName="key-outline"
+          placeholder="Confirme sua senha: "
+          value={confirmPassword}
+          secureTextEntry
+          onChangeText={rest.setConfirmPassword}
+        />
+        <View className="flex w-full self-center justify-center">
+          <Botao onClick={handleNextStep} text="Avançar" isPrimary />
+        </View>
+      </View>
+    );
+  };
+
+  const renderStepTwo = () => {
+    return (
+      <View className="flex flex-col mt-2">
+        <Label
+          name="Altura"
+          iconName="human-male-height-variant"
+          placeholder="Digite sua altura"
+          value={altura}
+          onChangeText={rest.setAltura}
+        />
+        <Label
+          name="Peso"
+          iconName="weight-kilogram"
+          placeholder="Digite o seu Peso"
+          value={peso}
+          onChangeText={rest.setPeso}
+        />
+        <View className="flex flex-row self-stretch justify-evenly ">
+          <Botao onClick={handleBackStep} text="Voltar" isPrimary={false} />
+          <Botao onClick={register} text="Cadastrar" isPrimary />
+        </View>
+      </View>
+    );
+  };
+
+  let currentStepComponent;
+  if (currentStep === 1) {
+    currentStepComponent = renderStepOne();
+  } else if (currentStep === 2) {
+    currentStepComponent = renderStepTwo();
+  }
+
   return (
     <View className="w-full h-screen px-10 py-20 mt-4 rounded-3xl border-3 ">
       <Text className="text-4xl mb-1 font-bold text-center text-color3">
@@ -64,69 +144,16 @@ const RegisterForm: React.FC<IRegisterForm> = ({
       <Text className="font-medium text-lg text-color2 mt-4 text-center ">
         {subtitle}
       </Text>
-      <View className="mt-2 flex flex-col">
-        <Label
-          name="Nome"
-          iconName=""
-          placeholder="Digite seu Nome: "
-          value={nome}
-          onChangeText={rest.setNome}
-        />
-        <Label
-          name="Email"
-          iconName=""
-          placeholder="Digite seu E-mail: "
-          value={email}
-          onChangeText={rest.setEmail}
-        />
-        <Label
-          name="Senha"
-          iconName=""
-          placeholder="Digite sua senha: "
-          value={password}
-          onChangeText={rest.setPassword}
-        />
-        <Label
-          name="Confirmar Senha"
-          iconName=""
-          placeholder="Confirme sua senha: "
-          value={confirmPassword}
-          onChangeText={rest.setConfirmPassword}
-        />
-        <View className="flex flex-row gap-x-4 mb-5">
-          <View className="flex-1">
-            <Label
-              name="Altura"
-              iconName=""
-              placeholder="Altura"
-              value={altura}
-              onChangeText={rest.setAltura}
-            />
-          </View>
-          <View className="flex-1">
-            <Label
-              name="Peso"
-              iconName=""
-              placeholder="Peso"
-              value={peso}
-              onChangeText={rest.setPeso}
-            />
-          </View>
-        </View>
-        <View></View>
-        <View className="flex flex-col gap-y-1">
-          <View className="mt-2 flex flex-row gap- justify-center items-start">
-            <Text className="shadow-2xl shadow-black font-medium text-xs text-black">
-              Ja possui cadastro?
-            </Text>
-            <TextButton
-              text="Login"
-              onPress={() => navigation.navigate("Login")}
-            />
-          </View>
-          <View className="mt-2 flex flex-col gap-y-4">
-            <Botao isPrimary text="Cadastrar" onClick={register} />
-          </View>
+      {currentStepComponent}
+      <View className="flex flex-col mt-4 ">
+        <View className="mt-2 flex flex-row gap- justify-center items-start">
+          <Text className="shadow-2xl shadow-black font-medium text-xs text-black">
+            Ja possui cadastro?
+          </Text>
+          <TextButton
+            text="Login"
+            onPress={() => navigation.navigate("Login")}
+          />
         </View>
       </View>
     </View>

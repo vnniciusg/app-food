@@ -18,11 +18,11 @@ const Label: React.FC<TextInputProps & { name: string; iconName: string }> = ({
           className="flex-1"
           placeholder={props.placeholder}
           keyboardType={props.keyboardType}
-          secureTextEntry={props.secureTextEntry}
+          secureTextEntry={false ? props.secureTextEntry : hidePassword}
           value={props.value}
           onChangeText={props.onChangeText}
         />
-        {name === "Password" && (
+        {props.secureTextEntry === true && (
           <Icon
             onPress={() => setHidePassword(!hidePassword)}
             name={hidePassword ? "eye-outline" : "eye-off-outline"}
