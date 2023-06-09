@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { View, Modal, Text } from 'react-native';
 import { SearchBar } from 'react-native-screens';
 
-import Label from './Label';
-import TextButton from './textButton';
-import Botao from './Button';
-import ButtonIcon from './ButtonIcon';
+import Label from '../Label';
+import TextButton from '../textButton';
+import Botao from '../Button';
+import ButtonIcon from '../ButtonIcon';
 
 interface IFoodModalProps {
 	visible: boolean;

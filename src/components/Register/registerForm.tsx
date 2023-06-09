@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import Label from './Label';
-import Botao from './Button';
-import TextButton from './textButton';
+import Label from '../Label';
+import Botao from '../Button';
+import TextButton from '../textButton';
 
 export interface IRegisterForm {
 	title: string;

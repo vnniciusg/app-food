@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Botao from './Button';
+import Botao from '../Button';
 import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import FoodModal from './foodModal';

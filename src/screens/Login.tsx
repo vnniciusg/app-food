@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, StatusBar, ToastAndroid } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import LoginForm from '../components/loginForm';
+import LoginForm from '../components/Login/loginForm';
 import Botao from '../components/Button';
 import TextButton from '../components/textButton';
 

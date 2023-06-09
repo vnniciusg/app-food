@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableWithoutFeedback, Keyboard, StatusBar, SafeAreaView, FlatList } from 'react-native';
 
-import MealCard from '../components/MealCard';
+import MealCard from '../components/AddFood/MealCard';
 import ButtonIcon from '../components/ButtonIcon';
 
 const MealHistory = () => {

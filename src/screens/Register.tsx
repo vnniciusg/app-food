@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, SafeAreaView, StatusBar, ToastAndroid } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import RegisterForm from '../components/registerForm';
+import RegisterForm from '../components/Register/registerForm';
 import { useAuth } from '../context/Auth';
 
 const Register = () => {
