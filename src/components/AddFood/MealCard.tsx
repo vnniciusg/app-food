@@ -27,7 +27,7 @@ const MealCard: React.FC<IMeal> = ({ title, alimentos }) => {
 
 	return (
 		<SafeAreaView>
-			<View className="bg-color1 border-color3 border shadow-md	 shadow-black rounded-2xl p-3 mb-4 mx-4">
+			<View className="bg-color1 border-color3 border shadow-md shadow-black rounded-2xl p-2 mb-4 mx-4">
 				<View className="flex flex-row justify-between ml-2 mr-2 items-center text-center">
 					<Text className="text-xl font-bold  text-color3">{title}</Text>
 					<Text className="text-sm font-semibold text-color3">Calorias Totais : </Text>

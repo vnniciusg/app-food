@@ -12,6 +12,7 @@ const MealHistory = () => {
 		newDate.setDate(newDate.getDate() + days);
 		setCurrentDate(newDate);
 	};
+
 	const data = [
 		{
 			title: 'Café da Manhã',
@@ -48,13 +49,31 @@ const MealHistory = () => {
 				{ nome: 'Salada', qntd: '1', quantidadeCalorica: '50' },
 			],
 		},
+		{
+			title: 'Almoço',
+			alimentos: [
+				{ nome: 'Arroz', qntd: '1', quantidadeCalorica: '200' },
+				{ nome: 'Feijão', qntd: '1', quantidadeCalorica: '150' },
+				{ nome: 'Carne', qntd: '100g', quantidadeCalorica: '250' },
+				{ nome: 'Salada', qntd: '1', quantidadeCalorica: '50' },
+			],
+		},
+		{
+			title: 'Almoço',
+			alimentos: [
+				{ nome: 'Arroz', qntd: '1', quantidadeCalorica: '200' },
+				{ nome: 'Feijão', qntd: '1', quantidadeCalorica: '150' },
+				{ nome: 'Carne', qntd: '100g', quantidadeCalorica: '250' },
+				{ nome: 'Salada', qntd: '1', quantidadeCalorica: '50' },
+			],
+		},
 	];
 
 	return (
 		<SafeAreaView>
 			<StatusBar />
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-				<View className="mt-3 h-screen flex flex-col justify-center bg-color5">
+				<View className="mt-1 h-screen flex flex-col justify-center bg-color5">
 					<View className="flex justify-center flex-col text-center my-2 mx-4 p-1">
 						<View className="flex justify-center flex-col items-center text-center ">
 							<Text className="font-bold text-2xl uppercase  text-color3">Refeições</Text>
@@ -64,19 +83,23 @@ const MealHistory = () => {
 								<ButtonIcon buttonIconName="arrow-forward" onPress={() => updateDate(+1)} />
 							</View>
 						</View>
-						<View className="p-1.5 mt-1 text-start">
-							<Text className="font-bold text-color4">Calorias Totais : </Text>
-						</View>
 					</View>
 
-					<FlatList
-						data={data.map((refeicao, index) => ({
-							key: index.toString(),
-							title: refeicao.title,
-							alimentos: refeicao.alimentos,
-						}))}
-						renderItem={({ item }) => <MealCard key={item.key} title={item.title} alimentos={item.alimentos} />}
-					/>
+					<View
+						style={{ flex: 1, marginBottom: 80, backgroundColor: '#F6F1F1', borderWidth: 0 }}
+						className="border-none justify-between"
+					>
+						<Text className="font-bold text-color4 text-start px-6 py-2 ">Calorias Totais : </Text>
+						<FlatList
+							data={data.map((refeicao, index) => ({
+								key: index.toString(),
+								title: refeicao.title,
+								alimentos: refeicao.alimentos,
+							}))}
+							renderItem={({ item }) => <MealCard key={item.key} title={item.title} alimentos={item.alimentos} />}
+							contentContainerStyle={{ flexGrow: 1 }}
+						/>
+					</View>
 				</View>
 			</TouchableWithoutFeedback>
 		</SafeAreaView>
