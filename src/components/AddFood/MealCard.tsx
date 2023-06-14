@@ -6,10 +6,11 @@ import FoodModal from './foodModal';
 
 interface IMeal {
 	title: string;
-	alimentos: { nome: string; qntd: string; quantidadeCalorica: string }[];
+	alimentos: { nome: string; qntd: string; qntdCaloria: string }[];
+	id: string;
 }
 
-const MealCard: React.FC<IMeal> = ({ title, alimentos }) => {
+const MealCard: React.FC<IMeal> = ({ title, alimentos, id }) => {
 	const [showAll, setShowAll] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 
@@ -45,7 +46,7 @@ const MealCard: React.FC<IMeal> = ({ title, alimentos }) => {
 								<Text className=" text-xs  text-color4 border-r pr-2 border-gray-400">
 									Quantidade : {alimento.qntd}gramas
 								</Text>
-								<Text className=" text-xs text-color4">Caloria Unitaria : {alimento.quantidadeCalorica}Kcal</Text>
+								<Text className=" text-xs text-color4">Caloria Unitaria : {alimento.qntdCaloria}Kcal</Text>
 							</View>
 						</View>
 					))}
@@ -60,7 +61,7 @@ const MealCard: React.FC<IMeal> = ({ title, alimentos }) => {
 						)}
 					</View>
 				</View>
-				<FoodModal visible={showModal} onClose={() => setShowModal(false)} />
+				<FoodModal visible={showModal} onClose={() => setShowModal(false)} id={id} />
 			</View>
 		</SafeAreaView>
 	);

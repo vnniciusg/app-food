@@ -1,24 +1,43 @@
 import React, { useState } from 'react';
 import { View, Modal, Text } from 'react-native';
-import { SearchBar } from 'react-native-screens';
+import axios from 'axios';
 
 import Label from '../Label';
 import TextButton from '../textButton';
 import Botao from '../Button';
 import ButtonIcon from '../ButtonIcon';
+import secret from '../../../secret';
+
+const API_URL = secret.API_URL;
 
 interface IFoodModalProps {
 	visible: boolean;
 	onClose: () => void;
 	onSubmit?: () => void;
-	foodName?: string;
-	foodCal?: number;
-	foodProt?: number;
-	foodCarbo?: number;
-	foodGordu?: number;
+	id: string;
 }
 
-const FoodModal: React.FC<IFoodModalProps> = ({ visible, onClose }) => {
+const FoodModal: React.FC<IFoodModalProps> = ({ visible, onClose, id }) => {
+	const [nome, setNome] = useState('');
+	const [quantidade, setQuantidade] = useState('');
+	const [qntdCalorica, setQntdCaloria] = useState('');
+
+	const createNewFood = async () => {
+		try {
+			const teste = await axios.get(`${API_URL}/api/user/profile`);
+			const userId = teste.data.user.id;
+			const response = await axios.post(`${API_URL}api/food/${userId}/${id}`, {
+				nome,
+				quantidade,
+				qntdCalorica,
+			});
+
+			return response;
+		} catch (error) {
+			console.error('Erro: ', error);
+		}
+	};
+
 	const [step, setSteps] = useState(1);
 
 	const handleNextStep = () => {
@@ -43,23 +62,32 @@ const FoodModal: React.FC<IFoodModalProps> = ({ visible, onClose }) => {
 
 				<View className="flex flex-col justify-center  w-full px-5 m-1">
 					<View className="flex flex-col ">
-						<Label name="Nomeclatura" placeholder="Digite o nome do alimento" iconName="" />
-						<Label name="Quantidade" placeholder="Digite a quantidade do alimento" iconName="" />
-						<Label name="Quantidadade de Caloria" placeholder="Digite a quantidade de calorias" iconName="" />
-						<Label name="Quantidadade de Carboidrato" placeholder="Digite a quantidade de carboidrato" iconName="" />
-						<View className="flex flex-row gap-x-4 mb-1">
-							<View className="flex-1">
-								<Label name="Proteina" iconName="" placeholder="Qntd. Proteina" />
-							</View>
-							<View className="flex-1">
-								<Label name="Gordura" iconName="" placeholder="Qntd. Gordura" />
-							</View>
-						</View>
+						<Label
+							name="Nomeclatura"
+							placeholder="Digite o nome do alimento"
+							iconName=""
+							value={nome}
+							onChangeText={setNome}
+						/>
+						<Label
+							name="Quantidade"
+							placeholder="Digite a quantidade do alimento"
+							iconName=""
+							value={quantidade}
+							onChangeText={setQuantidade}
+						/>
+						<Label
+							name="Quantidadade de Caloria"
+							placeholder="Digite a quantidade de calorias"
+							iconName=""
+							value={qntdCalorica}
+							onChangeText={setQntdCaloria}
+						/>
 					</View>
 				</View>
 				<View className="flex flex-col justify-between mb-4 items-center">
 					<TextButton text="Descubra qual alimento é através da imagem" />
-					<Botao isPrimary text="Cadastrar Alimento" onClick={handleBackStep} />
+					<Botao isPrimary text="Cadastrar Alimento" onClick={createNewFood} />
 				</View>
 			</View>
 		);

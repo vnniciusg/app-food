@@ -1,73 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableWithoutFeedback, Keyboard, StatusBar, SafeAreaView, FlatList } from 'react-native';
+import axios from 'axios';
 
 import MealCard from '../components/AddFood/MealCard';
 import ButtonIcon from '../components/ButtonIcon';
+import secret from '../../secret';
+
+const API_URL = secret.API_URL;
+
+interface Meal {
+	id: string;
+	nome: string;
+	day: string;
+	foods: string[];
+}
 
 const MealHistory = () => {
 	const [currentDate, setCurrentDate] = useState(new Date());
+	const [meals, setMeals] = useState<Meal[]>([]);
+
+	const formatDate = (date: Date): string => {
+		const day = date.getDate();
+		const month = date.getMonth() + 1;
+		const year = date.getFullYear();
+		return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+	};
+
+	useEffect(() => {
+		fetchMealsByDay();
+	}, []);
+
+	const fetchMealsByDay = async () => {
+		try {
+			const response = await axios.post<{ meals: Meal[] }>(`${API_URL}/api/meal/`);
+			const data = response.data;
+			setMeals(data.meals);
+		} catch (error) {
+			console.error('Erro: ', error);
+		}
+	};
 
 	const updateDate = (days: number) => {
 		const newDate = new Date(currentDate);
 		newDate.setDate(newDate.getDate() + days);
 		setCurrentDate(newDate);
 	};
-
-	const data = [
-		{
-			title: 'Café da Manhã',
-			alimentos: [
-				{ nome: 'Pão', qntd: '2', quantidadeCalorica: '200' },
-				{ nome: 'Ovos', qntd: '2', quantidadeCalorica: '150' },
-				{ nome: 'Frutas', qntd: '1 ', quantidadeCalorica: '80' },
-			],
-		},
-		{
-			title: 'sadasd',
-			alimentos: [
-				{ nome: 'Arroz', qntd: '1', quantidadeCalorica: '200' },
-				{ nome: 'Feijão', qntd: '1', quantidadeCalorica: '150' },
-				{ nome: 'Carne', qntd: '100g', quantidadeCalorica: '250' },
-				{ nome: 'Salada', qntd: '1', quantidadeCalorica: '50' },
-			],
-		},
-		{
-			title: 'Almoço',
-			alimentos: [
-				{ nome: 'Arroz', qntd: '1', quantidadeCalorica: '200' },
-				{ nome: 'Feijão', qntd: '1', quantidadeCalorica: '150' },
-				{ nome: 'Carne', qntd: '123', quantidadeCalorica: '250' },
-				{ nome: 'Salada', qntd: '1', quantidadeCalorica: '50' },
-			],
-		},
-		{
-			title: 'Almoço',
-			alimentos: [
-				{ nome: 'Arroz', qntd: '1', quantidadeCalorica: '200' },
-				{ nome: 'Feijão', qntd: '1', quantidadeCalorica: '150' },
-				{ nome: 'Carne', qntd: '100g', quantidadeCalorica: '250' },
-				{ nome: 'Salada', qntd: '1', quantidadeCalorica: '50' },
-			],
-		},
-		{
-			title: 'Almoço',
-			alimentos: [
-				{ nome: 'Arroz', qntd: '1', quantidadeCalorica: '200' },
-				{ nome: 'Feijão', qntd: '1', quantidadeCalorica: '150' },
-				{ nome: 'Carne', qntd: '100g', quantidadeCalorica: '250' },
-				{ nome: 'Salada', qntd: '1', quantidadeCalorica: '50' },
-			],
-		},
-		{
-			title: 'Almoço',
-			alimentos: [
-				{ nome: 'Arroz', qntd: '1', quantidadeCalorica: '200' },
-				{ nome: 'Feijão', qntd: '1', quantidadeCalorica: '150' },
-				{ nome: 'Carne', qntd: '100g', quantidadeCalorica: '250' },
-				{ nome: 'Salada', qntd: '1', quantidadeCalorica: '50' },
-			],
-		},
-	];
 
 	return (
 		<SafeAreaView>
@@ -91,12 +68,16 @@ const MealHistory = () => {
 					>
 						<Text className="font-bold text-color4 text-start px-6 py-2 ">Calorias Totais : </Text>
 						<FlatList
-							data={data.map((refeicao, index) => ({
-								key: index.toString(),
-								title: refeicao.title,
-								alimentos: refeicao.alimentos,
-							}))}
-							renderItem={({ item }) => <MealCard key={item.key} title={item.title} alimentos={item.alimentos} />}
+							data={meals
+								.filter((refeicao) => refeicao.day === formatDate(currentDate))
+								.map((refeicao) => ({
+									key: refeicao.id,
+									title: refeicao.nome,
+									alimentos: refeicao.foods,
+								}))}
+							renderItem={({ item }) => (
+								<MealCard key={item.key} title={item.title} alimentos={item.alimentos} id={item.key} />
+							)}
 							contentContainerStyle={{ flexGrow: 1 }}
 						/>
 					</View>
