@@ -1,17 +1,12 @@
 import React from 'react';
 import { View, Modal, Text, TextInput } from 'react-native';
+
 import Botao from '../Button';
 import ButtonIcon from '../ButtonIcon';
 
-interface IProfileModal {
-	visible: boolean;
-	onClose: () => void;
-	onSubmit?: () => void;
-	title: string;
-	labelValue: string;
-}
+import { IProfileModalProps } from '../../types/components/IProfileModalProps';
 
-const ProfileModal: React.FC<IProfileModal> = ({ visible, onClose, title, labelValue }) => {
+const ProfileModal: React.FC<IProfileModalProps> = ({ visible, onClose, title, labelValue }) => {
 	return (
 		<Modal visible={visible} transparent={true} animationType="slide" presentationStyle="overFullScreen">
 			<View className={`absolute bottom-24 w-full p-5 `}>

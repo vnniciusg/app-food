@@ -3,16 +3,9 @@ import { View, Text } from 'react-native';
 
 import Label from '../Label';
 
-export interface ILoginForm {
-	title: string;
-	subtitle?: string;
-	email: string;
-	password: string;
-	setEmail: (email: string) => void;
-	setPassword: (password: string) => void;
-}
+import { ILoginFormProps } from '../../types/components/ILoginFormProps';
 
-const LoginForm: React.FC<ILoginForm> = ({ title, subtitle, email, password, setEmail, setPassword }) => {
+const LoginForm: React.FC<ILoginFormProps> = ({ title, subtitle, email, password, setEmail, setPassword }) => {
 	return (
 		<View className="w-11/12 max-w-[700px] px-10 py-20 rounded-3xl bg-transparent border-3 border-[#d4e8fc]">
 			<Text className="text-4xl font-bold text-center text-color3">{title}</Text>

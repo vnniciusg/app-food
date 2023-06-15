@@ -6,25 +6,9 @@ import Label from '../Label';
 import Botao from '../Button';
 import TextButton from '../textButton';
 
-export interface IRegisterForm {
-	title: string;
-	subtitle?: string;
-	email: string;
-	password: string;
-	nome: string;
-	confirmPassword: string;
-	altura: string;
-	peso: string;
-	setPassword: (password: string) => void;
-	setEmail: (email: string) => void;
-	setNome: (name: string) => void;
-	setConfirmPassword: (confirmPassword: string) => void;
-	setAltura: (altura: string) => void;
-	setPeso: (peso: string) => void;
-	register: () => void;
-}
+import { IRegisterFormProps } from '../../types/components/IRegisterFormProps';
 
-const RegisterForm: React.FC<IRegisterForm> = ({
+const RegisterForm: React.FC<IRegisterFormProps> = ({
 	title,
 	subtitle,
 	email,

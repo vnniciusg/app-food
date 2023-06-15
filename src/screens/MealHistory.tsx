@@ -4,27 +4,24 @@ import axios from 'axios';
 
 import MealCard from '../components/AddFood/MealCard';
 import ButtonIcon from '../components/ButtonIcon';
-import secret from '../../secret';
 
-const API_URL = secret.API_URL;
+import { formatDate, updateDate } from '../utils/dateUtils';
+
+import config from '../config';
+
+const API_URL = config.API_URL;
 
 interface Meal {
 	id: string;
 	nome: string;
 	day: string;
-	foods: string[];
+	userId: string;
+	foods: { nome: string; qntd: string; qntdCaloria: string }[];
 }
 
 const MealHistory = () => {
 	const [currentDate, setCurrentDate] = useState(new Date());
 	const [meals, setMeals] = useState<Meal[]>([]);
-
-	const formatDate = (date: Date): string => {
-		const day = date.getDate();
-		const month = date.getMonth() + 1;
-		const year = date.getFullYear();
-		return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
-	};
 
 	useEffect(() => {
 		fetchMealsByDay();
@@ -40,12 +37,6 @@ const MealHistory = () => {
 		}
 	};
 
-	const updateDate = (days: number) => {
-		const newDate = new Date(currentDate);
-		newDate.setDate(newDate.getDate() + days);
-		setCurrentDate(newDate);
-	};
-
 	return (
 		<SafeAreaView>
 			<StatusBar />
@@ -55,9 +46,15 @@ const MealHistory = () => {
 						<View className="flex justify-center flex-col items-center text-center ">
 							<Text className="font-bold text-2xl uppercase  text-color3">Refeições</Text>
 							<View className="bg-transparent flex flex-row gap-x-2  mt-1 text-center items-center">
-								<ButtonIcon buttonIconName="arrow-back" onPress={() => updateDate(-1)} />
+								<ButtonIcon
+									buttonIconName="arrow-back"
+									onPress={() => updateDate({ days: -1, currentDate, setCurrentDate })}
+								/>
 								<Text className="font-bold text-sm text-color3">{currentDate.toLocaleDateString('pt-Br')}</Text>
-								<ButtonIcon buttonIconName="arrow-forward" onPress={() => updateDate(+1)} />
+								<ButtonIcon
+									buttonIconName="arrow-forward"
+									onPress={() => updateDate({ days: +1, currentDate, setCurrentDate })}
+								/>
 							</View>
 						</View>
 					</View>

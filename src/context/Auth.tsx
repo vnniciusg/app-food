@@ -6,10 +6,11 @@ import { IAuthProps } from '../types/IAuthProps';
 import { IAuthState } from '../types/IAuthState';
 import { IRegisterProps } from '../types/IRegisterProps';
 import { ILoginProps } from '../types/ILoginProps';
-import secret from '../../secret';
 
-const TOKEN_KEY = secret.TOKEN_KEY;
-export const API_URL = secret.API_URL;
+import config from '../config';
+
+const TOKEN_KEY = config.TOKEN_KEY;
+export const API_URL = config.API_URL;
 
 const AuthContext = createContext<IAuthProps>({});
 
@@ -23,24 +24,24 @@ export const AuthProvider = ({ children }: any) => {
 		authenticated: false,
 	});
 
-	// useEffect(() => {
-	//   const loadToken = async () => {
-	//     const token = await SecureStore.getItemAsync(TOKEN_KEY);
-	//     if (token) {
-	//       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-	//     }
+	useEffect(() => {
+		const loadToken = async () => {
+			const token = await SecureStore.getItemAsync(TOKEN_KEY);
+			if (token) {
+				axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+			}
 
-	//     setAuthState({
-	//       token: token,
-	//       authenticated: true,
-	//     });
-	//   };
-	//   loadToken();
-	// }, []);
+			setAuthState({
+				token: token,
+				authenticated: true,
+			});
+		};
+		loadToken();
+	}, []);
 
 	const register = async ({ email, name, password, altura, peso }: IRegisterProps) => {
 		try {
-			return await axios.post(`${secret.API_URL}/api/user/register`, {
+			return await axios.post(`${config.API_URL}/api/user/register`, {
 				email,
 				name,
 				password,
@@ -54,7 +55,7 @@ export const AuthProvider = ({ children }: any) => {
 
 	const login = async ({ email, password }: ILoginProps) => {
 		try {
-			const result = await axios.post(`${secret.API_URL}/api/user/login`, {
+			const result = await axios.post(`${config.API_URL}/api/user/login`, {
 				email,
 				password,
 			});

@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
-import Botao from '../Button';
 import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+
+import Botao from '../Button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import FoodModal from './foodModal';
 
-interface IMeal {
-	title: string;
-	alimentos: { nome: string; qntd: string; qntdCaloria: string }[];
-	id: string;
-}
+import { IMealProps } from '../../types/components/IMealProps';
 
-const MealCard: React.FC<IMeal> = ({ title, alimentos, id }) => {
+const MealCard: React.FC<IMealProps> = ({ title, alimentos, id }) => {
 	const [showAll, setShowAll] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 
@@ -56,7 +53,7 @@ const MealCard: React.FC<IMeal> = ({ title, alimentos, id }) => {
 						<Text className="text-red-400 p-2 m-2">Adicionar Alimento...</Text>
 					</TouchableOpacity>
 					<View className="flex flex-row justify-center text-center">
-						{alimentos.length > 1 && (
+						{alimentos.length >= 1 && (
 							<Botao text={showAll ? 'Mostrar Menos' : 'Mostrar Mais'} isPrimary onClick={handleShowAll} />
 						)}
 					</View>

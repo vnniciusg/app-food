@@ -6,16 +6,12 @@ import Label from '../Label';
 import TextButton from '../textButton';
 import Botao from '../Button';
 import ButtonIcon from '../ButtonIcon';
-import secret from '../../../secret';
 
-const API_URL = secret.API_URL;
+import { IFoodModalProps } from '../../types/components/IFoodModalProps';
 
-interface IFoodModalProps {
-	visible: boolean;
-	onClose: () => void;
-	onSubmit?: () => void;
-	id: string;
-}
+import config from '../../config';
+
+const API_URL = config.API_URL;
 
 const FoodModal: React.FC<IFoodModalProps> = ({ visible, onClose, id }) => {
 	const [nome, setNome] = useState('');
