@@ -22,7 +22,7 @@ const FoodModal: React.FC<IFoodModalProps> = ({ visible, onClose, id }) => {
 		try {
 			const teste = await axios.get(`${API_URL}/api/user/profile`);
 			const userId = teste.data.user.id;
-			const response = await axios.post(`${API_URL}api/food/${userId}/${id}`, {
+			const response = await axios.post(`${API_URL}/api/food/${userId}/${id}`, {
 				nome,
 				quantidade,
 				qntdCalorica,

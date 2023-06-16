@@ -22,9 +22,11 @@ interface Meal {
 const MealHistory = () => {
 	const [currentDate, setCurrentDate] = useState(new Date());
 	const [meals, setMeals] = useState<Meal[]>([]);
+	const [userId, setUserId] = useState('');
 
 	useEffect(() => {
 		fetchMealsByDay();
+		getUserId();
 	}, []);
 
 	const fetchMealsByDay = async () => {
@@ -34,6 +36,18 @@ const MealHistory = () => {
 			setMeals(data.meals);
 		} catch (error) {
 			console.error('Erro: ', error);
+		}
+	};
+
+	const getUserId = async (): Promise<string | null> => {
+		try {
+			const response = await axios.get(`${API_URL}/api/user/profile`);
+			const userId: string = response.data.user.id;
+			setUserId(userId);
+			return userId;
+		} catch (error) {
+			console.error('Erro: ', error);
+			return null;
 		}
 	};
 
@@ -66,11 +80,12 @@ const MealHistory = () => {
 						<Text className="font-bold text-color4 text-start px-6 py-2 ">Calorias Totais : </Text>
 						<FlatList
 							data={meals
-								.filter((refeicao) => refeicao.day === formatDate(currentDate))
+								.filter((refeicao) => refeicao.day === formatDate(currentDate) && refeicao.userId === userId)
 								.map((refeicao) => ({
 									key: refeicao.id,
 									title: refeicao.nome,
 									alimentos: refeicao.foods,
+									userId: refeicao.userId,
 								}))}
 							renderItem={({ item }) => (
 								<MealCard key={item.key} title={item.title} alimentos={item.alimentos} id={item.key} />
