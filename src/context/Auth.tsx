@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
-import jwt from 'jsonwebtoken';
 
 import { IAuthProps } from '../types/IAuthProps';
 import { IAuthState } from '../types/IAuthState';

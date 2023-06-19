@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Router } from './src/routes/Router';
 import { AuthProvider } from './src/context/Auth';
 
