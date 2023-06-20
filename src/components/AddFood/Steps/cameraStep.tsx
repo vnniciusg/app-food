@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, TouchableOpacity, Text, Button } from 'react-native';
+import { View, TouchableOpacity, Text, Button, Alert } from 'react-native';
+import * as fs from 'react-native-fs';
 
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import axios, { AxiosResponse } from 'axios';
+import config from '../../../config';
 
 import ButtonIcon from '../../ButtonIcon';
 
@@ -20,7 +22,7 @@ const CameraStep: React.FC<ICameraStepProps> = ({ handleClose, step, setSteps })
 	const [image, setImage] = useState(null);
 	const [type, setType] = useState(Camera.Constants.Type.front);
 	const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
-	const [photoUri, setPhotoUri] = useState<string>('');
+	const [photo, setPhoto] = useState<string>('');
 
 	const cameraRef = useRef(null);
 
@@ -36,6 +38,7 @@ const CameraStep: React.FC<ICameraStepProps> = ({ handleClose, step, setSteps })
 		if (cameraRef) {
 			try {
 				const data = await cameraRef.current.takePictureAsync();
+
 				setImage(data.uri);
 			} catch (error: any) {
 				console.error('ERROR', error.message);
@@ -43,27 +46,24 @@ const CameraStep: React.FC<ICameraStepProps> = ({ handleClose, step, setSteps })
 		}
 	};
 
-	const uploadToCloudinary = async (imageUri: string) => {
-		const formData = new FormData();
-		formData.append(
-			'file',
-			JSON.stringify({
-				uri: imageUri,
-				type: 'image/jpeg',
-				name: 'myImage.jpg',
-			}),
-		);
-		formData.append('upload_preset', 'yqy46hiz');
+	const uploadImage = async (imageUri: string) => {
+		const data = new FormData();
 
+		data.append('file', { uri: imageUri, name: 'image.jpg', type: 'image/jpg' } as unknown as Blob);
 		try {
-			const response: AxiosResponse = await axios.post(
-				'https://api.cloudinary.com/v1_1/dw2mjwfrm/image/upload',
-				formData,
-			);
+			const response = await axios.post(`${config.API_URL}/api/food/upload/`, data, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			});
 
-			console.log('Image uploaded successfully:', response.data.url);
-		} catch (error) {
-			console.error('Error uploading image:', error);
+			if (response.data.error) {
+				console.error('Nao foi possivel enviar');
+			} else {
+				console.log('Image uploaded successfully');
+			}
+		} catch (err) {
+			console.error('ERROR : ', err);
 		}
 	};
 
@@ -85,17 +85,21 @@ const CameraStep: React.FC<ICameraStepProps> = ({ handleClose, step, setSteps })
 			<View>
 				<View className="bg-color4 rounded-b-3xl text-center justify-center items-center">
 					{image ? (
-						<Button title="Upload Image" onPress={() => uploadToCloudinary(image)} />
+						<TouchableOpacity className=" flex flex-row justify-center items-center" onPress={() => uploadImage(image)}>
+							<Icon name="camera" size={20} />
+							<Text className="font-bold text-base text-color2 ml-[10px] my-4 ">Enviar Foto</Text>
+						</TouchableOpacity>
 					) : (
-						<Button title="Take Picture" onPress={takePicture} />
+						<>
+							<TouchableOpacity className=" flex flex-row justify-center items-center" onPress={takePicture}>
+								<Icon name="camera" size={20} />
+								<Text className="font-bold text-base text-color2 ml-[10px] my-2 ">Tirar Foto</Text>
+							</TouchableOpacity>
+							<TouchableOpacity className=" flex flex-row justify-center items-center" onPress={nextStep}>
+								<Text className="font-bold text-xs text-color3 ml-[10px] mb-2 ">Deseja adicionar manualmente?</Text>
+							</TouchableOpacity>
+						</>
 					)}
-					<TouchableOpacity className=" flex flex-row justify-center items-center" onPress={takePicture}>
-						<Icon name="camera" size={20} />
-						<Text className="font-bold text-base text-color2 ml-[10px] my-3 ">Enviar Foto</Text>
-					</TouchableOpacity>
-					<TouchableOpacity className=" flex flex-row justify-center items-center" onPress={nextStep}>
-						<Text className="font-bold text-xs text-color3 ml-[10px] mb-3 ">Deseja adicionar manualmente?</Text>
-					</TouchableOpacity>
 				</View>
 			</View>
 		</View>
