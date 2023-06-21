@@ -20,7 +20,7 @@ interface ICameraStepProps {
 const CameraStep: React.FC<ICameraStepProps> = ({ handleClose, step, setSteps }) => {
 	const [hasCameraPermission, setHasCameraPermission] = useState(null);
 	const [image, setImage] = useState(null);
-	const [type, setType] = useState(Camera.Constants.Type.front);
+	const [type, setType] = useState(Camera.Constants.Type.back);
 	const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
 	const [photo, setPhoto] = useState<string>('');
 
@@ -47,6 +47,7 @@ const CameraStep: React.FC<ICameraStepProps> = ({ handleClose, step, setSteps })
 	};
 
 	const uploadImage = async (imageUri: string) => {
+		console.log(imageUri);
 		const data = new FormData();
 
 		data.append('file', { uri: imageUri, name: 'image.jpg', type: 'image/jpg' } as unknown as Blob);

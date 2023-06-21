@@ -1,15 +1,10 @@
-import { View, TouchableOpacity, Text } from 'react-native';
-import axios from 'axios';
-
-import config from '../../../config';
+import { View, Text } from 'react-native';
 
 import ButtonIcon from '../../ButtonIcon';
 import Label from '../../Label';
 import TextButton from '../../textButton';
 import Botao from '../../Button';
 import React from 'react';
-
-const API_URL = config.API_URL;
 
 interface INotFoundFoodProps {
 	handleClose: () => void;
@@ -22,27 +17,33 @@ interface INotFoundFoodProps {
 	setQntdCaloria: (qntdCalorica: string) => void;
 	step: number;
 	setStep: (step: number) => void;
+	addFood: (nome: string, quantidade: string, qntdCalorica: string) => Promise<any>;
 }
 
-const NotFoundFood: React.FC<INotFoundFoodProps> = ({ nome, quantidade, qntdCalorica, id, step, setStep, ...rest }) => {
-	const createNewFood = async () => {
-		try {
-			const teste = await axios.get(`${API_URL}/api/user/profile`);
-			const userId = teste.data.user.id;
-			const response = await axios.post(`${API_URL}/api/food/${userId}/${id}`, {
-				nome,
-				quantidade,
-				qntdCalorica,
-			});
-
-			return response;
-		} catch (error) {
-			console.error('Erro: ', error);
-		}
-	};
-
+const NotFoundFood: React.FC<INotFoundFoodProps> = ({
+	nome,
+	quantidade,
+	qntdCalorica,
+	id,
+	step,
+	setStep,
+	addFood,
+	...rest
+}) => {
 	const backStep = () => {
 		setStep(step - 1);
+	};
+
+	const handleSubmit = async (nome: string, quantidade: string, qntdCalorica: string) => {
+		try {
+			await addFood(nome, quantidade, qntdCalorica);
+			rest.setNome('');
+			rest.setQntdCaloria('');
+			rest.setQuantidade('');
+			rest.handleClose();
+		} catch (err) {
+			console.error('ERRO AO ENVIAR FORMULARIO DE ALIMENTOS ', err);
+		}
 	};
 
 	return (
@@ -80,7 +81,7 @@ const NotFoundFood: React.FC<INotFoundFoodProps> = ({ nome, quantidade, qntdCalo
 				</View>
 				<View className="flex flex-col justify-between mb-4 items-center">
 					<TextButton text="Descubra qual alimento é através da imagem" onPress={backStep} />
-					<Botao isPrimary text="Cadastrar Alimento" onClick={createNewFood} />
+					<Botao isPrimary text="Cadastrar Alimento" onClick={() => handleSubmit(nome, quantidade, qntdCalorica)} />
 				</View>
 			</View>
 		</View>

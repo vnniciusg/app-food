@@ -6,7 +6,7 @@ import NotFoundFood from './Steps/NotFoundFood';
 
 import { IFoodModalProps } from '../../types/components/IFoodModalProps';
 
-const FoodModal: React.FC<IFoodModalProps> = ({ visible, onClose, id }) => {
+const FoodModal: React.FC<IFoodModalProps> = ({ visible, onClose, id, addFood }) => {
 	const [step, setSteps] = useState(1);
 
 	const [nome, setNome] = useState('');
@@ -36,6 +36,7 @@ const FoodModal: React.FC<IFoodModalProps> = ({ visible, onClose, id }) => {
 				setQntdCaloria={setQntdCaloria}
 				step={step}
 				setStep={setSteps}
+				addFood={addFood}
 			/>
 		);
 	} else {

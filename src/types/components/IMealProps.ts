@@ -1,5 +1,5 @@
 export interface IMealProps {
 	title: string;
-	alimentos: { nome: string; qntd: string; qntdCaloria: string }[];
+	foods: { id: string; nome: string; quantidade: string; qntdCalorica: string }[];
 	id: string;
 }

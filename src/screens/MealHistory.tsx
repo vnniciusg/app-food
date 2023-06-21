@@ -8,6 +8,7 @@ import ButtonIcon from '../components/ButtonIcon';
 import { formatDate, updateDate } from '../utils/dateUtils';
 
 import config from '../config';
+import { useAuth } from '../context/Auth';
 
 const API_URL = config.API_URL;
 
@@ -16,13 +17,22 @@ interface Meal {
 	nome: string;
 	day: string;
 	userId: string;
-	foods: { nome: string; qntd: string; qntdCaloria: string }[];
+	foods: { id: string; nome: string; quantidade: string; qntdCalorica: string }[];
 }
 
 const MealHistory = () => {
 	const [currentDate, setCurrentDate] = useState(new Date());
 	const [meals, setMeals] = useState<Meal[]>([]);
 	const [userId, setUserId] = useState('');
+
+	const { onLogout } = useAuth();
+
+	const logout = async () => {
+		const result = await onLogout!();
+		if (result && result.error) {
+			alert(result.msg);
+		}
+	};
 
 	useEffect(() => {
 		fetchMealsByDay();
@@ -33,9 +43,19 @@ const MealHistory = () => {
 		try {
 			const response = await axios.post<{ meals: Meal[] }>(`${API_URL}/api/meal/`);
 			const data = response.data;
-			setMeals(data.meals);
+			const ultimoDia = data.meals[data.meals.length - 1].day;
+			const dataString = currentDate.toDateString();
+			if (ultimoDia <= dataString) {
+				const id = userId;
+				const create = await axios.post(`${API_URL}/api/meal/${id}`);
+				const createData = create.data;
+				setMeals([...data.meals, createData]);
+			} else {
+				setMeals(data.meals);
+			}
 		} catch (error) {
 			console.error('Erro: ', error);
+			logout();
 		}
 	};
 
@@ -88,7 +108,7 @@ const MealHistory = () => {
 									userId: refeicao.userId,
 								}))}
 							renderItem={({ item }) => (
-								<MealCard key={item.key} title={item.title} alimentos={item.alimentos} id={item.key} />
+								<MealCard key={item.key} title={item.title} foods={item.alimentos} id={item.key} />
 							)}
 							contentContainerStyle={{ flexGrow: 1 }}
 						/>

@@ -5,11 +5,24 @@ import Botao from '../Button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import FoodModal from './foodModal';
 
-import { IMealProps } from '../../types/components/IMealProps';
+import axios from 'axios';
+import config from '../../config';
 
-const MealCard: React.FC<IMealProps> = ({ title, alimentos, id }) => {
+import { IMealProps } from '../../types/components/IMealProps';
+import { useAuth } from '../../context/Auth';
+
+const MealCard: React.FC<IMealProps> = ({ title, foods, id }) => {
 	const [showAll, setShowAll] = useState(false);
 	const [showModal, setShowModal] = useState(false);
+	const [foodList, setFoodList] = useState(foods);
+
+	const { onLogout } = useAuth();
+	const logout = async () => {
+		const result = await onLogout!();
+		if (result && result.error) {
+			alert(result.msg);
+		}
+	};
 
 	const handleShowAll = () => {
 		setShowAll(!showAll);
@@ -17,9 +30,35 @@ const MealCard: React.FC<IMealProps> = ({ title, alimentos, id }) => {
 
 	const getVisibleAlimentos = () => {
 		if (showAll) {
-			return alimentos;
+			return foodList;
 		} else {
-			return alimentos.slice(0, 1);
+			return foodList.slice(0, 1);
+		}
+	};
+
+	const deleteFood = async (id: string) => {
+		try {
+			const response = await axios.delete(`${config.API_URL}/api/food/${id}`);
+			setFoodList(foodList.filter((food) => food.id !== id));
+			return response;
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	const addFood = async (nome: string, quantidade: string, qntdCalorica: string) => {
+		try {
+			const teste = await axios.get(`${config.API_URL}/api/user/profile`);
+			const userId = teste.data.user.id;
+			const response = await axios.post(`${config.API_URL}/api/food/${userId}/${id}`, {
+				nome,
+				quantidade,
+				qntdCalorica,
+			});
+			setFoodList([...foodList, response.data.food]); // Atualizar a lista de alimentos adicionando o novo alimento
+			return response;
+		} catch (err) {
+			logout();
 		}
 	};
 
@@ -31,19 +70,19 @@ const MealCard: React.FC<IMealProps> = ({ title, alimentos, id }) => {
 					<Text className="text-sm font-semibold text-color3">Calorias Totais : </Text>
 				</View>
 				<View className="flex flex-col ">
-					{getVisibleAlimentos()?.map((alimento, index) => (
+					{getVisibleAlimentos()?.map((foodList, index) => (
 						<View key={index} className="flex flex-col m-2 justify-center border-b border-gray-400 py-3 ">
 							<View className="flex flex-row justify-between mr-6 ">
-								<Text className="text-base font-semibold text-color4">{alimento.nome}</Text>
-								<TouchableOpacity>
+								<Text className="text-base font-semibold text-color4">{foodList.nome}</Text>
+								<TouchableOpacity onPress={() => deleteFood(foodList.id)}>
 									<Icon name="close-circle" color={'red'} size={20} />
 								</TouchableOpacity>
 							</View>
 							<View className="flex flex-row gap-x-2 ">
 								<Text className=" text-xs  text-color4 border-r pr-2 border-gray-400">
-									Quantidade : {alimento.qntd}gramas
+									Quantidade : {foodList.quantidade}gramas
 								</Text>
-								<Text className=" text-xs text-color4">Caloria Unitaria : {alimento.qntdCaloria}Kcal</Text>
+								<Text className=" text-xs text-color4">Caloria Unitaria : {foodList.qntdCalorica} Kcal</Text>
 							</View>
 						</View>
 					))}
@@ -53,12 +92,12 @@ const MealCard: React.FC<IMealProps> = ({ title, alimentos, id }) => {
 						<Text className="text-red-400 p-2 m-2">Adicionar Alimento...</Text>
 					</TouchableOpacity>
 					<View className="flex flex-row justify-center text-center">
-						{alimentos.length >= 1 && (
+						{foodList.length >= 1 && (
 							<Botao text={showAll ? 'Mostrar Menos' : 'Mostrar Mais'} isPrimary onClick={handleShowAll} />
 						)}
 					</View>
 				</View>
-				<FoodModal visible={showModal} onClose={() => setShowModal(false)} id={id} />
+				<FoodModal visible={showModal} onClose={() => setShowModal(false)} id={id} addFood={addFood} />
 			</View>
 		</SafeAreaView>
 	);
