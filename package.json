@@ -28,17 +28,12 @@
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-native": "0.71.8",
-    "react-native-camera": "^4.2.1",
-    "react-native-camera-hooks": "^0.5.3",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-keychain": "^8.1.1",
     "react-native-paper": "^5.8.0",
     "react-native-safe-area-context": "4.5.0",
     "react-native-screens": "~3.20.0",
-    "react-native-vector-icons": "^9.2.0",
-    "react-native-vision-camera": "^2.15.4",
-    "rn-fetch-blob": "^0.12.0",
-    "yup": "^1.2.0"
+    "react-native-vector-icons": "^9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

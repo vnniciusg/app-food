@@ -14,18 +14,20 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "permissions": {
-        "camera": true,
-        "mediaLibrary": true
-      },
-      "supportsTablet": true
-    },
+
     "android": {
-      "permissions": ["CAMERA"]
+      "permissions": [
+        "CAMERA"
+      ],
+      "package": "com.vnng109.appfood"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7f0be57f-2b6c-455a-be79-0885b496695c"
+      }
     }
   }
 }

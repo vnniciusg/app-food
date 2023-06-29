@@ -7,10 +7,7 @@ import ButtonIcon from '../components/ButtonIcon';
 
 import { formatDate, updateDate } from '../utils/dateUtils';
 
-import config from '../config';
 import { useAuth } from '../context/Auth';
-
-const API_URL = config.API_URL;
 
 interface Meal {
 	id: string;
@@ -41,13 +38,14 @@ const MealHistory = () => {
 
 	const fetchMealsByDay = async () => {
 		try {
-			const response = await axios.post<{ meals: Meal[] }>(`${API_URL}/api/meal/`);
+			const response = await axios.post<{ meals: Meal[] }>(`https://srv-app-food.onrender.com/api/meal/`);
 			const data = response.data;
 			const ultimoDia = data.meals[data.meals.length - 1].day;
-			const dataString = currentDate.toDateString();
+			const dataString = formatDate(currentDate);
+
 			if (ultimoDia <= dataString) {
 				const id = userId;
-				const create = await axios.post(`${API_URL}/api/meal/${id}`);
+				const create = await axios.post(`https://srv-app-food.onrender.com/api/meal/${id}`);
 				const createData = create.data;
 				setMeals([...data.meals, createData]);
 			} else {
@@ -61,7 +59,7 @@ const MealHistory = () => {
 
 	const getUserId = async (): Promise<string | null> => {
 		try {
-			const response = await axios.get(`${API_URL}/api/user/profile`);
+			const response = await axios.get(`https://srv-app-food.onrender.com/api/user/profile`);
 			const userId: string = response.data.user.id;
 			setUserId(userId);
 			return userId;

@@ -7,11 +7,6 @@ import { IAuthState } from '../types/IAuthState';
 import { IRegisterProps } from '../types/IRegisterProps';
 import { ILoginProps } from '../types/ILoginProps';
 
-import config from '../config';
-
-const TOKEN_KEY = config.TOKEN_KEY;
-export const API_URL = config.API_URL;
-
 const AuthContext = createContext<IAuthProps>({});
 
 export const useAuth = () => {
@@ -26,7 +21,7 @@ export const AuthProvider = ({ children }: any) => {
 
 	useEffect(() => {
 		const loadToken = async () => {
-			const token = await SecureStore.getItemAsync(TOKEN_KEY);
+			const token = await SecureStore.getItemAsync('asdjisadioasd');
 			if (token) {
 				axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 			}
@@ -41,7 +36,7 @@ export const AuthProvider = ({ children }: any) => {
 
 	const register = async ({ email, name, password, altura, peso }: IRegisterProps) => {
 		try {
-			return await axios.post(`${config.API_URL}/api/user/register`, {
+			return await axios.post(`https://srv-app-food.onrender.com/api/user/register`, {
 				email,
 				name,
 				password,
@@ -55,7 +50,7 @@ export const AuthProvider = ({ children }: any) => {
 
 	const login = async ({ email, password }: ILoginProps) => {
 		try {
-			const result = await axios.post(`${config.API_URL}/api/user/login`, {
+			const result = await axios.post(`https://srv-app-food.onrender.com/api/user/login`, {
 				email,
 				password,
 			});
@@ -66,7 +61,7 @@ export const AuthProvider = ({ children }: any) => {
 
 			axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`;
 
-			await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
+			await SecureStore.setItemAsync('asdjisadioasd', result.data.token);
 
 			return result;
 		} catch (e: any) {
@@ -75,7 +70,7 @@ export const AuthProvider = ({ children }: any) => {
 	};
 
 	const logout = async () => {
-		await SecureStore.deleteItemAsync(TOKEN_KEY);
+		await SecureStore.deleteItemAsync('asdjisadioasd');
 
 		axios.defaults.headers.common['Authorization'] = '';
 

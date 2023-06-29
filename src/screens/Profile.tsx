@@ -21,7 +21,7 @@ const UserProfileScreen = () => {
 	};
 
 	return (
-		<SafeAreaView className="flex flex-col bg-color1 py-[100px] px-2">
+		<SafeAreaView className="flex flex-col bg-color1 py-10 px-2">
 			<View className="px-[30px] mb-2 h-auto">
 				<View className="flex flex-col mt-[15px] items-center">
 					<Avatar.Image

@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, KeyboardAvoidingView } from 'react-native';
 
 import ButtonIcon from '../../ButtonIcon';
 import Label from '../../Label';
@@ -47,7 +47,7 @@ const NotFoundFood: React.FC<INotFoundFoodProps> = ({
 	};
 
 	return (
-		<View className={`absolute bottom-24 w-full p-5 `}>
+		<KeyboardAvoidingView className={`absolute bottom-20 w-full p-4 `} behavior="height" enabled>
 			<View className={`bg-color1 flex  rounded-3xl  shadow-2xl shadow-gray-900 `}>
 				<View className="mx-3 mt-3">
 					<ButtonIcon buttonIconName="close-circle" onPress={rest.handleClose} />
@@ -84,7 +84,7 @@ const NotFoundFood: React.FC<INotFoundFoodProps> = ({
 					<Botao isPrimary text="Cadastrar Alimento" onClick={() => handleSubmit(nome, quantidade, qntdCalorica)} />
 				</View>
 			</View>
-		</View>
+		</KeyboardAvoidingView>
 	);
 };
 
