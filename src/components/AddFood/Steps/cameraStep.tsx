@@ -4,8 +4,7 @@ import * as fs from 'react-native-fs';
 
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
-import axios, { AxiosResponse } from 'axios';
-import config from '../../../config';
+import axios from 'axios';
 
 import ButtonIcon from '../../ButtonIcon';
 
@@ -52,7 +51,7 @@ const CameraStep: React.FC<ICameraStepProps> = ({ handleClose, step, setSteps })
 
 		data.append('file', { uri: imageUri, name: 'image.jpg', type: 'image/jpg' } as unknown as Blob);
 		try {
-			const response = await axios.post(`${config.API_URL}/api/food/upload/`, data, {
+			const response = await axios.post(`${teste.url}/predict`, data, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},
@@ -61,7 +60,7 @@ const CameraStep: React.FC<ICameraStepProps> = ({ handleClose, step, setSteps })
 			if (response.data.error) {
 				console.error('Nao foi possivel enviar');
 			} else {
-				console.log('Image uploaded successfully');
+				console.log(response.data);
 			}
 		} catch (err) {
 			console.error('ERROR : ', err);
@@ -77,7 +76,7 @@ const CameraStep: React.FC<ICameraStepProps> = ({ handleClose, step, setSteps })
 	};
 
 	return (
-		<View className={`absolute bottom-24 w-full h-[550px] p-5`}>
+		<View className={`absolute bottom-20 w-full h-[550px] p-5`}>
 			<Camera style={{ borderRadius: 10, flex: 1 }} type={type} flashMode={flash} ref={cameraRef}>
 				<View className="mx-3 mt-3">
 					<ButtonIcon buttonIconName="close-circle" onPress={handleClose} />
