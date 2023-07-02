@@ -45,7 +45,7 @@ const MealHistory = () => {
 			const data = response.data;
 			const ultimoDia = data.meals[data.meals.length - 1].day;
 			const dataString = currentDate.toDateString();
-			if (ultimoDia <= dataString) {
+			if (ultimoDia < dataString) {
 				const id = userId;
 				const create = await axios.post(`${API_URL}/api/meal/${id}`);
 				const createData = create.data;
