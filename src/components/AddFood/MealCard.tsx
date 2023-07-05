@@ -57,6 +57,7 @@ const MealCard: React.FC<IMealProps> = ({ title, foods, id }) => {
 				quantidade,
 				qntdCalorica,
 			});
+
 			setFoodList([...foodList, response.data.food]); // Atualizar a lista de alimentos adicionando o novo alimento
 			return response;
 		} catch (err) {

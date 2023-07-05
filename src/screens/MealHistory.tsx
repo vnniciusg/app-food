@@ -42,7 +42,6 @@ const MealHistory = () => {
 			const data = response.data;
 			const ultimoDia = data.meals[data.meals.length - 1].day;
 			const dataString = formatDate(currentDate);
-
 			if (ultimoDia <= dataString) {
 				const id = userId;
 				const create = await axios.post(`https://srv-app-food.onrender.com/api/meal/${id}`);

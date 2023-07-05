@@ -22,7 +22,20 @@ const FoodModal: React.FC<IFoodModalProps> = ({ visible, onClose, id, addFood })
 	let currentStepComponent: any;
 
 	if (step === 1) {
-		currentStepComponent = <CameraStep handleClose={handleClose} step={step} setSteps={setSteps} />;
+		currentStepComponent = (
+			<CameraStep
+				handleClose={handleClose}
+				step={step}
+				setSteps={setSteps}
+				addFood={addFood}
+				nome={nome}
+				quantidade={quantidade}
+				qntdCalorica={qntdCalorica}
+				setNome={setNome}
+				setQuantidade={setQuantidade}
+				setQntdCaloria={setQntdCaloria}
+			/>
+		);
 	} else if (step === 2) {
 		currentStepComponent = (
 			<NotFoundFood
